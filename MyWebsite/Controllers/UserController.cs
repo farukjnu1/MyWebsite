@@ -43,12 +43,93 @@ namespace MyWebsite.Controllers
             try
             {
                 UserRepository userRepo = new UserRepository();
-                userRepo.Add(model);
+                TempData["message"] = userRepo.Add(model);
             }
             catch (Exception ex)
             {
             }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int id, UserVM.QueryType queryType)
+        {
+            var model = new UserVM();
+            UserRepository userRepo = new UserRepository();
+            model = userRepo.GetById(id);
+            if (model != null)
+            {
+                RoleRepository roleRepo = new RoleRepository();
+                var listRole = roleRepo.GetAll();
+                List<SelectListItem> selectRoles = new List<SelectListItem>();
+                foreach (var role in listRole)
+                {
+                    selectRoles.Add(new SelectListItem { Text = role.RoleName, Value = role.RoleId.ToString() });
+                }
+                model.RoleOptions = selectRoles;
+                model.QueryTypes = queryType;
+            }
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(UserVM model)
+        {
+            try
+            {
+                UserRepository userRepo = new UserRepository();
+                TempData["message"] = userRepo.Update(model);
+                if (model.RoleId > 0)
+                {
+                    RoleRepository roleRepo = new RoleRepository();
+                    roleRepo.SetUserRole(model);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult EditEmail(UserVM model)
+        {
+            try
+            {
+                UserRepository userRepo = new UserRepository();
+                TempData["message"] = userRepo.UpdateEmail(model);
+            }
+            catch (Exception ex)
+            {
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult EditUsername(UserVM model)
+        {
+            try
+            {
+                UserRepository userRepo = new UserRepository();
+                TempData["message"] = userRepo.UpdateUsername(model);
+            }
+            catch (Exception ex)
+            {
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult EditPassword(UserVM model)
+        {
+            try
+            {
+                UserRepository userRepo = new UserRepository();
+                TempData["message"] = userRepo.UpdatePassword(model);
+            }
+            catch (Exception ex)
+            {
+            }
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

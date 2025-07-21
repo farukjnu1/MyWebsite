@@ -6,8 +6,6 @@
 }
 
 <h1>Create</h1>
-
-<h4>UserVM</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,31 +27,36 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PasswordHash" class="control-label"></label>
-                <input asp-for="PasswordHash" class="form-control" />
-                <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
+                <input asp-for="ConfirmPassword" type="password" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" asp-items="Model.RoleOptions" class="form-control">
+                <label asp-for="RoleId" class="control-label"></label>
+                <select asp-for="RoleId" asp-items="Model.RoleOptions" class="form-control">
                     <option value="">-- Select Role --</option>
                 </select>
-                <span asp-validation-for="Role" class="text-danger"></span>
+                <span asp-validation-for="RoleId" class="text-danger"></span>
             </div>
-            @* <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div> *@
             <div class="form-group" style="padding-top:10px">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+    <div class="col-md-4">
+        <h3>Password Policy</h3>
+        <ul>
+            <li>Password must be at least 8 characters long.</li>
+            <li>Password must contain at least one uppercase letter.</li>
+            <li>Password must contain at least one lowercase letter.</li>
+            <li>Password must contain at least one number.</li>
+            <li>Password must contain at least one special character.</li>
+        </ul>
     </div>
 </div>
 
@@ -61,6 +64,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
+@* @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+} *@

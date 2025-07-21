@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using MyWebsite.EF;
@@ -12,7 +13,7 @@ namespace MyWebsite.Repositories
         private readonly string _connectionString = "Server=Faruk-Abdullah;Database=Website;User=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=True;";
 
         // Create
-        public void Add(UserVM user)
+        public string? Add(UserVM user)
         {
             using var conn = new SqlConnection(_connectionString);
             using var cmd = new SqlCommand("User_Modify", conn);
@@ -21,97 +22,176 @@ namespace MyWebsite.Repositories
 
             cmd.Parameters.AddWithValue("@Username", user.Username);
             cmd.Parameters.AddWithValue("@Email", user.Email);
-            cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+            cmd.Parameters.AddWithValue("@Password", user.Password);
             cmd.Parameters.AddWithValue("@ConfirmPassword", user.ConfirmPassword);
-            cmd.Parameters.AddWithValue("@QueryType", QueryType.Insert);
+            cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.Insert);
 
             conn.Open();
             //cmd.ExecuteNonQuery();
-            string messageSQL = Convert.ToString(cmd.ExecuteScalar());
+            string? messageSQL = Convert.ToString(cmd.ExecuteScalar());
+            return messageSQL;
         }
 
-        // Update
-        public void Update(UserVM user)
+        public string? Update(UserVM user)
         {
             using var conn = new SqlConnection(_connectionString);
             using var cmd = new SqlCommand("User_Modify", conn);
 
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@Username", user.Username);
-            cmd.Parameters.AddWithValue("@Email", user.Email);
-            cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-            cmd.Parameters.AddWithValue("@Role", user.Role ?? "viewer");
+            //cmd.Parameters.AddWithValue("@Email", user.Email);
+            //cmd.Parameters.AddWithValue("@Username", user.Username);
+            //cmd.Parameters.AddWithValue("@Password", user.Password);
+            cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
             cmd.Parameters.AddWithValue("@UserID", user.UserID);
-            cmd.Parameters.AddWithValue("@QueryType", QueryType.Update);
+            cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.Update);
 
             conn.Open();
-            cmd.ExecuteNonQuery();
+            string? messageSQL = Convert.ToString(cmd.ExecuteScalar());
+            return messageSQL;
+        }
+
+        // Update
+        public string? UpdateEmail(UserVM user)
+        {
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand("User_Modify", conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Email", user.Email);
+            //cmd.Parameters.AddWithValue("@Username", user.Username);
+            //cmd.Parameters.AddWithValue("@Password", user.Password);
+            cmd.Parameters.AddWithValue("@UserID", user.UserID);
+            cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.UpdateEmail);
+
+            conn.Open();
+            string? messageSQL = Convert.ToString(cmd.ExecuteScalar());
+            return messageSQL;
+        }
+
+        // Update
+        public string? UpdateUsername(UserVM user)
+        {
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand("User_Modify", conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            //cmd.Parameters.AddWithValue("@Email", user.Email);
+            cmd.Parameters.AddWithValue("@Username", user.Username);
+            //cmd.Parameters.AddWithValue("@Password", user.Password);
+            cmd.Parameters.AddWithValue("@UserID", user.UserID);
+            cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.UpdateUsername);
+
+            conn.Open();
+            string? messageSQL = Convert.ToString(cmd.ExecuteScalar());
+            return messageSQL;
+        }
+
+        // Update
+        public string? UpdatePassword(UserVM user)
+        {
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand("User_Modify", conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            //cmd.Parameters.AddWithValue("@Email", user.Email);
+            //cmd.Parameters.AddWithValue("@Username", user.Username);
+            cmd.Parameters.AddWithValue("@Password", user.Password);
+            cmd.Parameters.AddWithValue("@ConfirmPassword", user.ConfirmPassword);
+            cmd.Parameters.AddWithValue("@UserID", user.UserID);
+            cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.UpdatePassword);
+
+            conn.Open();
+            string? messageSQL = Convert.ToString(cmd.ExecuteScalar());
+            return messageSQL;
         }
 
         // Delete
-        public void Delete(int userId)
+        public string? Delete(int userId)
         {
             using var conn = new SqlConnection(_connectionString);
-            using var cmd = new SqlCommand("DELETE FROM Users WHERE UserID = @UserID", conn);
+            using var cmd = new SqlCommand("User_Modify", conn);
 
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@UserID", userId);
-            cmd.Parameters.AddWithValue("@QueryType", QueryType.Delete);
+            cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.Delete);
 
             conn.Open();
-            cmd.ExecuteNonQuery();
+            string? messageSQL = Convert.ToString(cmd.ExecuteScalar());
+            return messageSQL;
         }
 
         // Read all
         public List<UserVM> GetAll()
         {
-            var users = new List<UserVM>();
-
-            using (var _context = new WebsiteContext())
+            var list = new List<UserVM>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                users = (from x in _context.Users
-                         select new UserVM
-                         {
-                             CreatedAt = x.CreatedAt,
-                             Email = x.Email,
-                             PasswordHash = x.PasswordHash,
-                             UserID = x.UserId,
-                             Username = x.Username
-                         }).ToList();
-            }
+                using (SqlCommand cmd = new SqlCommand("User_Read", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-            return users;
+                    cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.GetAll);
+
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            UserVM model = new UserVM();
+                            model.CreatedAt = reader.GetValue("CreatedAt") == DBNull.Value ? (DateTime?)null : reader.GetDateTime("CreatedAt");
+                            model.Email = reader.GetValue("Email") == DBNull.Value ? string.Empty : reader.GetString("Email");
+                            model.UserID = reader.GetValue("UserID") == DBNull.Value ? 0 : reader.GetInt32("UserID");
+                            model.Username = reader.GetValue("Username") == DBNull.Value ? string.Empty : reader.GetString("Username");
+                            model.IsActive = reader.GetValue("IsActive") == DBNull.Value ? false : reader.GetBoolean("IsActive");
+                            model.RoleName = reader.GetValue("Description") == DBNull.Value ? string.Empty : reader.GetString("Description");
+                            
+                            list.Add(model);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            return list;
         }
 
         // Read one
-        public UserVM GetById(int userId)
+        public UserVM? GetById(int userId)
         {
-            var user = new UserVM();
-
-            using (var _context = new WebsiteContext())
+            UserVM? model = null;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
             {
-                user = (from x in _context.Users
-                        where x.UserId == userId
-                        select new UserVM
+                using (SqlCommand cmd = new SqlCommand("User_Read", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@UserID", userId);
+                    cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.GetById);
+
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
                         {
-                            CreatedAt = x.CreatedAt,
-                            Email = x.Email,
-                            PasswordHash = x.PasswordHash,
-                            UserID = x.UserId,
-                            Username = x.Username
-                        }).FirstOrDefault();
+                            model = new UserVM();
+                            model.CreatedAt = reader.GetValue("CreatedAt") == DBNull.Value ? (DateTime?)null : reader.GetDateTime("CreatedAt");
+                            model.Email = reader.GetValue("Email") == DBNull.Value ? string.Empty : reader.GetString("Email");
+                            model.UserID = reader.GetValue("UserID") == DBNull.Value ? 0 : reader.GetInt32("UserID");
+                            model.Username = reader.GetValue("Username") == DBNull.Value ? string.Empty : reader.GetString("Username");
+                            model.IsActive = reader.GetValue("IsActive") == DBNull.Value ? false : reader.GetBoolean("IsActive");
+                            model.RoleName = reader.GetValue("Description") == DBNull.Value ? string.Empty : reader.GetString("Description");
+                            model.RoleId = reader.GetValue("RoleId") == DBNull.Value ? 0 : reader.GetInt32("RoleId");
+                        }
+                    }
+                    conn.Close();
+                }
             }
-
-            return user;
-        }
-
-        public enum QueryType
-        {
-            GetAll = 0, GetById = 1, Insert = 2, Update = 3, Delete = 4
+            return model;
         }
 
     }
-
 }

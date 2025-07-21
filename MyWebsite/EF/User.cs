@@ -15,9 +15,11 @@ public partial class User
 
     public DateTime? CreatedAt { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public virtual ICollection<Medium> Media { get; set; } = new List<Medium>();
 
     public virtual ICollection<Page> Pages { get; set; } = new List<Page>();
 
-    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
+    public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 }
