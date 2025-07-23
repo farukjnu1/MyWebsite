@@ -193,5 +193,31 @@ namespace MyWebsite.Repositories
             return model;
         }
 
+        public UserVM Login(UserVM model)
+        {
+            UserVM oUser = new UserVM();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("User_Read", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Username", model.Username);
+                    cmd.Parameters.AddWithValue("@Password", model.Password);
+                    cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.Login);
+
+                    conn.Open();
+                    string? output = Convert.ToString(cmd.ExecuteScalar());
+                    int userId = 0;
+                    bool isValid = int.TryParse(output, out userId);
+                    oUser.IsActive = isValid;
+                    oUser.UserID = userId;
+                    oUser.Username = model.Username;
+                    conn.Close();
+                }
+            }
+            return oUser;
+        }
+
     }
 }

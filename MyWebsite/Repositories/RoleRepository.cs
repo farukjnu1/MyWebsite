@@ -1,10 +1,15 @@
-﻿using MyWebsite.EF;
+﻿using Microsoft.Data.SqlClient;
+using System.Data;
+using MyWebsite.EF;
 using MyWebsite.Models;
 
 namespace MyWebsite.Repositories
 {
     public class RoleRepository
     {
+        private readonly string _connectionString = "Server=Faruk-Abdullah;Database=Website;User=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=True;";
+        public RoleRepository() { }
+
         // Read all
         public List<RoleVM> GetAll()
         {
@@ -45,6 +50,40 @@ namespace MyWebsite.Repositories
                 isSave = true;
             }
             return isSave;
+        }
+
+        // Read all
+        public List<RolePermissionVM> GetPermissionByRole(int roleId, string controller)
+        {
+            var list = new List<RolePermissionVM>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("Role_Read", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@RoleId", roleId);
+                    cmd.Parameters.AddWithValue("@Controller", controller);
+                    cmd.Parameters.AddWithValue("@QueryType", RoleVM.QueryType.GetPermissionByRole);
+
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            RolePermissionVM model = new RolePermissionVM();
+                            model.Controller = reader.GetValue("Controller") == DBNull.Value ? string.Empty : reader.GetString("Controller");
+                            model.IsActive = reader.GetValue("IsActive") == DBNull.Value ? false : reader.GetBoolean("IsActive");
+                            model.RoleId = reader.GetValue("RoleId") == DBNull.Value ? 0 : reader.GetInt32("RoleId");
+                            model.RolePermissionId = reader.GetValue("RolePermissionId") == DBNull.Value ? 0 : reader.GetInt32("RolePermissionId");
+
+                            list.Add(model);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            return list;
         }
 
 

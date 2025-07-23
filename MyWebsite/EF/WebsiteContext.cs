@@ -33,6 +33,8 @@ public partial class WebsiteContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<RolePermission> RolePermissions { get; set; }
+
     public virtual DbSet<SiteSetting> SiteSettings { get; set; }
 
     public virtual DbSet<Specialist> Specialists { get; set; }
@@ -184,6 +186,15 @@ public partial class WebsiteContext : DbContext
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.RoleName).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<RolePermission>(entity =>
+        {
+            entity.ToTable("RolePermission");
+
+            entity.Property(e => e.Controller)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<SiteSetting>(entity =>

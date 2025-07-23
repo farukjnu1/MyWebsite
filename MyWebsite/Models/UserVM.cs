@@ -39,7 +39,7 @@ namespace MyWebsite.Models
         public QueryType QueryTypes { get;set; }
         public enum QueryType
         {
-            GetAll = 0, GetById = 1, Insert = 2, Update = 3, Delete = 4, UpdateEmail = 5, UpdateUsername = 6, UpdatePassword = 7
+            GetAll = 0, GetById = 1, Insert = 2, Update = 3, Delete = 4, UpdateEmail = 5, UpdateUsername = 6, UpdatePassword = 7, Login = 8
         }
     }
 }

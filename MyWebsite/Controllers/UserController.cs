@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MyWebsite.Models;
 using MyWebsite.Repositories;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using MyWebsite.Fiters;
 
 namespace MyWebsite.Controllers
 {
+    [AdminFilter]
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
@@ -132,16 +134,16 @@ namespace MyWebsite.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Privacy()
+        /*public IActionResult Privacy()
         {
             return View();
-        }
+        }*/
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        /*[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        }*/
 
     }
 }

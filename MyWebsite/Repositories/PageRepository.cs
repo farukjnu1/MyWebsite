@@ -10,7 +10,7 @@ namespace MyWebsite.Repositories
         private readonly string _connectionString = "Server=Faruk-Abdullah;Database=Website;User=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=True;";
 
         // Read
-        public List<PageVM> GetAll(UserVM user)
+        public List<PageVM> GetAll()
         {
             List<PageVM> list = new List<PageVM>();
             using (SqlConnection conn = new SqlConnection(_connectionString))
@@ -28,13 +28,13 @@ namespace MyWebsite.Repositories
                         {
                             PageVM model = new PageVM();
                             model.PageId = reader.GetInt32("PageId");
-                            model.AuthorId = reader.GetInt32("AuthorId");
-                            model.Slug = reader.GetString("Slug");
-                            model.Status = reader.GetString("Status");
-                            model.CreatedAt = reader.GetDateTime("CreatedAt");
-                            model.PublishedAt = reader.GetDateTime("PublishedAt");
-                            model.Title = reader.GetString("Title");
-                            model.Content = reader.GetString("Content");
+                            model.AuthorId = reader.GetValue("AuthorId") == DBNull.Value ? (int?)null : reader.GetInt32("AuthorId");
+                            model.Slug = reader.GetValue("Slug") == DBNull.Value ? (string?)null : reader.GetString("Slug");
+                            model.Status = reader.GetValue("Status") == DBNull.Value ? (string?)null : reader.GetString("Status");
+                            model.CreatedAt = reader.GetValue("CreatedAt") == DBNull.Value ? (DateTime?)null : reader.GetDateTime("CreatedAt");
+                            model.PublishedAt = reader.GetValue("PublishedAt") == DBNull.Value ? (DateTime?)null : reader.GetDateTime("PublishedAt");
+                            model.Title = reader.GetValue("Title") == DBNull.Value ? (string?)null : reader.GetString("Title");
+                            model.Content = reader.GetValue("Content") == DBNull.Value ? (string?)null : reader.GetString("Content");
 
                             list.Add(model);
                         }
@@ -65,13 +65,13 @@ namespace MyWebsite.Repositories
                         {
                             model = new PageVM();
                             model.PageId = reader.GetInt32("PageId");
-                            model.AuthorId = reader.GetInt32("AuthorId");
-                            model.Slug = reader.GetString("Slug");
-                            model.Status = reader.GetString("Status");
-                            model.CreatedAt = reader.GetDateTime("CreatedAt");
-                            model.PublishedAt = reader.GetDateTime("PublishedAt");
-                            model.Title = reader.GetString("Title");
-                            model.Content = reader.GetString("Content");
+                            model.AuthorId = reader.GetValue("AuthorId") == DBNull.Value ? (int?)null : reader.GetInt32("AuthorId");
+                            model.Slug = reader.GetValue("Slug") == DBNull.Value ? (string?)null : reader.GetString("Slug");
+                            model.Status = reader.GetValue("Status") == DBNull.Value ? (string?)null : reader.GetString("Status");
+                            model.CreatedAt = reader.GetValue("CreatedAt") == DBNull.Value ? (DateTime?)null : reader.GetDateTime("CreatedAt");
+                            model.PublishedAt = reader.GetValue("PublishedAt") == DBNull.Value ? (DateTime?)null : reader.GetDateTime("PublishedAt");
+                            model.Title = reader.GetValue("Title") == DBNull.Value ? (string?)null : reader.GetString("Title");
+                            model.Content = reader.GetValue("Content") == DBNull.Value ? (string?)null : reader.GetString("Content");
                         }
                     }
                     conn.Close();
@@ -99,12 +99,12 @@ namespace MyWebsite.Repositories
                         {
                             model = new PageVM();
                             model.PageId = reader.GetInt32("PageId");
-                            model.AuthorId = reader.GetInt32("AuthorId");
-                            model.Slug = reader.GetString("Slug");
-                            model.Status = reader.GetString("Status");
-                            model.CreatedAt = reader.GetDateTime("CreatedAt");
+                            model.AuthorId = reader.GetValue("AuthorId") == DBNull.Value ? (int?)null : reader.GetInt32("AuthorId");
+                            model.Slug = reader.GetValue("Slug") == DBNull.Value ? (string?)null : reader.GetString("Slug");
+                            model.Status = reader.GetValue("Status") == DBNull.Value ? (string?)null : reader.GetString("Status");
+                            model.CreatedAt = reader.GetValue("CreatedAt") == DBNull.Value ? (DateTime?)null : reader.GetDateTime("CreatedAt");
                             model.PublishedAt = reader.GetValue("PublishedAt") == DBNull.Value ? (DateTime?)null : reader.GetDateTime("PublishedAt");
-                            model.Title = reader.GetString("Title");
+                            model.Title = reader.GetValue("Title") == DBNull.Value ? (string?)null : reader.GetString("Title");
                             model.Content = reader.GetValue("Content") == DBNull.Value ? (string?)null : reader.GetString("Content");
                         }
                     }

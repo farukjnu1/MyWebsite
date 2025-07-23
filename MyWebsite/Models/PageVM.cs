@@ -5,13 +5,13 @@ namespace MyWebsite.Models
     {
         public int PageId { get; set; }
 
-        public string Title { get; set; } = null!;
+        public string? Title { get; set; } = null!;
 
-        public string Slug { get; set; } = null!;
+        public string? Slug { get; set; } = null!;
 
         public string? Content { get; set; }
 
-        public int AuthorId { get; set; }
+        public int? AuthorId { get; set; }
 
         public string? Status { get; set; }
 
