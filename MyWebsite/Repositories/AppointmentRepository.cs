@@ -95,10 +95,9 @@ namespace MyWebsite.Repositories
         }
 
         // Read all
-        public List<AppointmentVM> GetAll()
+        /*public List<AppointmentVM> GetAll()
         {
             var list = new List<AppointmentVM>();
-
             using (var _context = new WebsiteContext())
             {
                 list = (from x in _context.Appointments
@@ -118,7 +117,18 @@ namespace MyWebsite.Repositories
                              SpecialistId = x.SpecialistId  
                          }).ToList();
             }
+            return list;
+        }*/
 
+        public async Task<List<Appointment>> GetAll(int pageNumber = 1)
+        {
+            var list = new List<Appointment>();
+            using (var _context = new WebsiteContext())
+            {
+                int pageSize = 10;
+                var listAppointment = _context.Appointments.AsNoTracking();
+                list = await PaginatedList<Appointment>.CreateAsync(listAppointment, pageNumber, pageSize);
+            }
             return list;
         }
 
@@ -126,7 +136,6 @@ namespace MyWebsite.Repositories
         public AppointmentVM? GetById(int id)
         {
             AppointmentVM? model = null;
-
             using (var _context = new WebsiteContext())
             {
                 model = (from x in _context.Appointments
@@ -147,8 +156,41 @@ namespace MyWebsite.Repositories
                              SpecialistId = x.SpecialistId
                          }).FirstOrDefault();
             }
-
             return model;
+        }
+
+        public string MarkAsReadOrUnread(int id)
+        {
+            string message = "operation failed.";
+            var list = new List<Appointment>();
+            using (var _context = new WebsiteContext())
+            {
+                var oAppointment = _context.Appointments.Where(x => x.AppointmentId == id).FirstOrDefault();
+                if (oAppointment != null)
+                {
+                    oAppointment.IsRead = oAppointment.IsRead == true ? false : true;
+                    _context.SaveChanges();
+                    message = oAppointment.IsRead == true ? "Marked as read successfully." : "Marked as unread successfully.";
+                }
+            }
+            return message;
+        }
+
+        public string SuspendOrRestore(int id)
+        {
+            string message = "operation failed.";
+            var list = new List<Appointment>();
+            using (var _context = new WebsiteContext())
+            {
+                var oAppointment = _context.Appointments.Where(x => x.AppointmentId == id).FirstOrDefault();
+                if (oAppointment != null)
+                {
+                    oAppointment.IsActive = oAppointment.IsActive == true ? false : true;
+                    _context.SaveChanges();
+                    message = oAppointment.IsActive == true ? "Message has been restored." : "Message has been suspended.";
+                }
+            }
+            return message;
         }
 
     }

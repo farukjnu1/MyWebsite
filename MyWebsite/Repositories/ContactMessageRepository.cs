@@ -1,4 +1,5 @@
-﻿using MyWebsite.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using MyWebsite.EF;
 using MyWebsite.Models;
 
 namespace MyWebsite.Repositories
@@ -76,10 +77,9 @@ namespace MyWebsite.Repositories
         }
 
         // Read all
-        public List<ContactMessageVM> GetAll()
+        /*public async List<ContactMessageVM> GetAll(int pageNumber = 1)
         {
             var list = new List<ContactMessageVM>();
-
             using (var _context = new WebsiteContext())
             {
                 list = (from x in _context.ContactMessages
@@ -97,7 +97,18 @@ namespace MyWebsite.Repositories
                             ReadBy = x.ReadBy
                         }).ToList();
             }
+            return list;
+        }*/
 
+        public async Task<List<ContactMessage>> GetAll(int pageNumber = 1)
+        {
+            var list = new List<ContactMessage>();
+            using (var _context = new WebsiteContext())
+            {
+                int pageSize = 10;
+                var listContact = _context.ContactMessages.AsNoTracking();
+                list = await PaginatedList<ContactMessage>.CreateAsync(listContact, pageNumber, pageSize);
+            }
             return list;
         }
 
@@ -127,5 +138,40 @@ namespace MyWebsite.Repositories
 
             return model;
         }
+
+        public string MarkAsReadOrUnread(int id)
+        {
+            string message = "operation failed.";
+            var list = new List<ContactMessage>();
+            using (var _context = new WebsiteContext())
+            {
+                var oContactMessage = _context.ContactMessages.Where(x=>x.ContactMessageId == id).FirstOrDefault();
+                if (oContactMessage != null)
+                {
+                    oContactMessage.IsRead = oContactMessage.IsRead == true ? false : true;
+                    _context.SaveChanges();
+                    message = oContactMessage.IsRead == true ? "Marked as read successfully." : "Marked as unread successfully.";
+                }
+            }
+            return message;
+        }
+
+        public string SuspendOrRestore(int id)
+        {
+            string message = "operation failed.";
+            var list = new List<ContactMessage>();
+            using (var _context = new WebsiteContext())
+            {
+                var oContactMessage = _context.ContactMessages.Where(x => x.ContactMessageId == id).FirstOrDefault();
+                if (oContactMessage != null)
+                {
+                    oContactMessage.IsActive = oContactMessage.IsActive == true ? false : true;
+                    _context.SaveChanges();
+                    message = oContactMessage.IsActive == true ? "Message has been restored." : "Message has been suspended.";
+                }
+            }
+            return message;
+        }
+
     }
 }
