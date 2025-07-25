@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyWebsite.Fiters;
+using MyWebsite.Models;
 using MyWebsite.Repositories;
 
 namespace MyWebsite.Controllers
@@ -35,6 +36,20 @@ namespace MyWebsite.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Details(string slug)
+        {
+            PageRepository pRepo = new PageRepository();
+            PageContentRepository pcRepo = new PageContentRepository();
+
+            var oPage = pRepo.GetBySlug(slug);
+            oPage.ListPageContent = pcRepo.GetBySlugPage(slug);
+
+            var listPage = new List<PageVM>();
+            listPage.Add(oPage);
+
+            return View(listPage);
         }
 
         // GET: PagesController/Details/5

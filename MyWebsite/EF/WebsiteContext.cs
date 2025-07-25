@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using MyWebsite.Models;
 
 namespace MyWebsite.EF;
 
@@ -250,4 +251,6 @@ public partial class WebsiteContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+public DbSet<MyWebsite.Models.PageContentVM> PageContentVM { get; set; } = default!;
 }

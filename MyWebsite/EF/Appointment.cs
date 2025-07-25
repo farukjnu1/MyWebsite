@@ -34,4 +34,6 @@ public partial class Appointment
     public bool? IsActive { get; set; }
 
     public DateTime? CreateAt { get; set; }
+
+    public int? CreateBy { get; set; }
 }

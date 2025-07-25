@@ -20,8 +20,13 @@ namespace MyWebsite.Controllers
         // GET: ContactsController/Details/5
         public ActionResult Details(int id)
         {
-            ContactMessageRepository contactRepo = new ContactMessageRepository();
-            TempData["message"] = contactRepo.MarkAsReadOrUnread(id);
+            try
+            {
+                int? CreateBy = HttpContext.Session.GetInt32("UserID");
+                ContactMessageRepository contactRepo = new ContactMessageRepository();
+                TempData["message"] = contactRepo.MarkAsReadOrUnread(id, CreateBy);
+            }
+            catch (Exception ex) { }
             return RedirectToAction("Index");
         }
 
@@ -49,8 +54,13 @@ namespace MyWebsite.Controllers
         // GET: ContactsController/Edit/5
         public ActionResult Edit(int id)
         {
-            ContactMessageRepository contactRepo = new ContactMessageRepository();
-            TempData["message"] = contactRepo.SuspendOrRestore(id);
+            try
+            {
+                int? CreateBy = HttpContext.Session.GetInt32("UserID");
+                ContactMessageRepository contactRepo = new ContactMessageRepository();
+                TempData["message"] = contactRepo.SuspendOrRestore(id, CreateBy);
+            }
+            catch (Exception ex) { }
             return RedirectToAction("Index");
         }
 

@@ -17,6 +17,8 @@ public partial class User
 
     public bool? IsActive { get; set; }
 
+    public int? CreateBy { get; set; }
+
     public virtual ICollection<Medium> Media { get; set; } = new List<Medium>();
 
     public virtual ICollection<Page> Pages { get; set; } = new List<Page>();

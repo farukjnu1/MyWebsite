@@ -48,7 +48,7 @@ namespace MyWebsite.Repositories
                     oContactMessage.Subject = model.Subject;
                     oContactMessage.IsRead = model.IsRead;
                     oContactMessage.ReadBy = model.ReadBy;
-
+                    oContactMessage.CreateBy = model.CreateBy;
                     _context.SaveChanges();
 
                     message = "data has been updated successfully.";
@@ -139,7 +139,7 @@ namespace MyWebsite.Repositories
             return model;
         }
 
-        public string MarkAsReadOrUnread(int id)
+        public string MarkAsReadOrUnread(int id, int? CreateBy)
         {
             string message = "operation failed.";
             var list = new List<ContactMessage>();
@@ -148,6 +148,8 @@ namespace MyWebsite.Repositories
                 var oContactMessage = _context.ContactMessages.Where(x=>x.ContactMessageId == id).FirstOrDefault();
                 if (oContactMessage != null)
                 {
+                    oContactMessage.CreateBy = CreateBy;
+                    oContactMessage.ReadBy = CreateBy;
                     oContactMessage.IsRead = oContactMessage.IsRead == true ? false : true;
                     _context.SaveChanges();
                     message = oContactMessage.IsRead == true ? "Marked as read successfully." : "Marked as unread successfully.";
@@ -156,7 +158,7 @@ namespace MyWebsite.Repositories
             return message;
         }
 
-        public string SuspendOrRestore(int id)
+        public string SuspendOrRestore(int id, int? CreateBy)
         {
             string message = "operation failed.";
             var list = new List<ContactMessage>();
@@ -165,6 +167,7 @@ namespace MyWebsite.Repositories
                 var oContactMessage = _context.ContactMessages.Where(x => x.ContactMessageId == id).FirstOrDefault();
                 if (oContactMessage != null)
                 {
+                    oContactMessage.CreateBy = CreateBy;
                     oContactMessage.IsActive = oContactMessage.IsActive == true ? false : true;
                     _context.SaveChanges();
                     message = oContactMessage.IsActive == true ? "Message has been restored." : "Message has been suspended.";

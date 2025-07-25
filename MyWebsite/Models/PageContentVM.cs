@@ -1,7 +1,10 @@
-﻿namespace MyWebsite.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyWebsite.Models
 {
     public class PageContentVM
     {
+        [Key]
         public int PageContentId { get; set; }
 
         public string Title { get; set; } = null!;

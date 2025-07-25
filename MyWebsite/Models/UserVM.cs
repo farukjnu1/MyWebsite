@@ -32,6 +32,7 @@ namespace MyWebsite.Models
         [Required]
         public DateTime? CreatedAt { get; set; } = DateTime.Now; // Matches SQL default
         public bool IsActive { get; set; } = false;
+        public int? CreateBy { get; set; }
         public int RoleId { get; set; }
         public string RoleName { get; set; } = string.Empty;
         public IEnumerable<SelectListItem> RoleOptions { get; set; } = new List<SelectListItem>();

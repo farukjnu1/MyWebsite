@@ -33,6 +33,7 @@ namespace MyWebsite.Models
         public bool? IsActive { get; set; }
 
         public DateTime? CreateAt { get; set; }
+        public int? CreateBy { get; set; }
         public IEnumerable<SelectListItem>? SpecialistOptions { get; set; }
         public IEnumerable<SelectListItem>? DepartmentOptions { get; set; }
 

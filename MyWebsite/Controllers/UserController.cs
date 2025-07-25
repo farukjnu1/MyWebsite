@@ -44,6 +44,7 @@ namespace MyWebsite.Controllers
         {
             try
             {
+                model.CreateBy = HttpContext.Session.GetInt32("UserID");
                 UserRepository userRepo = new UserRepository();
                 TempData["message"] = userRepo.Add(model);
             }
@@ -78,6 +79,7 @@ namespace MyWebsite.Controllers
         {
             try
             {
+                model.CreateBy = HttpContext.Session.GetInt32("UserID");
                 UserRepository userRepo = new UserRepository();
                 TempData["message"] = userRepo.Update(model);
                 if (model.RoleId > 0)
@@ -97,6 +99,7 @@ namespace MyWebsite.Controllers
         {
             try
             {
+                model.CreateBy = HttpContext.Session.GetInt32("UserID");
                 UserRepository userRepo = new UserRepository();
                 TempData["message"] = userRepo.UpdateEmail(model);
             }
@@ -111,6 +114,7 @@ namespace MyWebsite.Controllers
         {
             try
             {
+                model.CreateBy = HttpContext.Session.GetInt32("UserID");
                 UserRepository userRepo = new UserRepository();
                 TempData["message"] = userRepo.UpdateUsername(model);
             }
@@ -125,6 +129,7 @@ namespace MyWebsite.Controllers
         {
             try
             {
+                model.CreateBy = HttpContext.Session.GetInt32("UserID");
                 UserRepository userRepo = new UserRepository();
                 TempData["message"] = userRepo.UpdatePassword(model);
             }

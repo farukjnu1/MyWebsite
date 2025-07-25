@@ -45,11 +45,12 @@
                 @Html.DisplayFor(modelItem => item.Content)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PageId">Edit</a> |
-                <a href="@item.Content" target="_blank">Details</a>
+                @* <a asp-action="Edit" asp-route-id="@item.PageId">Edit</a> | *@
+                <a href="Pages/Details?slug=@item.Slug" target="_blank">Details</a> |
+                <a href="@item.Content" target="_blank">View</a>
             </td>
-                @* <td>
-                @Html.DisplayFor(modelItem => item.Slug)
+            @* <td>
+            @Html.DisplayFor(modelItem => item.Slug)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Content)

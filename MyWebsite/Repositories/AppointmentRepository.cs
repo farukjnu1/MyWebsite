@@ -65,6 +65,7 @@ namespace MyWebsite.Repositories
                     oAppointment.DepartmentId = model.DepartmentId;
                     oAppointment.IsRead = model.IsRead;
                     oAppointment.ReadBy = model.ReadBy;
+                    oAppointment.CreateBy = model.CreateBy;
 
                     _context.SaveChanges();
 
@@ -159,7 +160,7 @@ namespace MyWebsite.Repositories
             return model;
         }
 
-        public string MarkAsReadOrUnread(int id)
+        public string MarkAsReadOrUnread(int id, int? CreateBy)
         {
             string message = "operation failed.";
             var list = new List<Appointment>();
@@ -168,6 +169,8 @@ namespace MyWebsite.Repositories
                 var oAppointment = _context.Appointments.Where(x => x.AppointmentId == id).FirstOrDefault();
                 if (oAppointment != null)
                 {
+                    oAppointment.CreateBy = CreateBy;
+                    oAppointment.ReadBy = CreateBy;
                     oAppointment.IsRead = oAppointment.IsRead == true ? false : true;
                     _context.SaveChanges();
                     message = oAppointment.IsRead == true ? "Marked as read successfully." : "Marked as unread successfully.";
@@ -176,7 +179,7 @@ namespace MyWebsite.Repositories
             return message;
         }
 
-        public string SuspendOrRestore(int id)
+        public string SuspendOrRestore(int id, int? CreateBy)
         {
             string message = "operation failed.";
             var list = new List<Appointment>();
@@ -185,6 +188,7 @@ namespace MyWebsite.Repositories
                 var oAppointment = _context.Appointments.Where(x => x.AppointmentId == id).FirstOrDefault();
                 if (oAppointment != null)
                 {
+                    oAppointment.CreateBy = CreateBy;
                     oAppointment.IsActive = oAppointment.IsActive == true ? false : true;
                     _context.SaveChanges();
                     message = oAppointment.IsActive == true ? "Message has been restored." : "Message has been suspended.";

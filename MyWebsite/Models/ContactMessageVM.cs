@@ -21,5 +21,6 @@
         public DateTime? CreateAt { get; set; }
 
         public bool? IsActive { get; set; }
+        public int? CreateBy { get; set; }
     }
 }

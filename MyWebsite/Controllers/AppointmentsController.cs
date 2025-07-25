@@ -24,8 +24,13 @@ namespace MyWebsite.Controllers
         // GET: AppointmentsController/Details/5
         public ActionResult Details(int id)
         {
-            AppointmentRepository appointmentRepo = new AppointmentRepository();
-            TempData["message"] = appointmentRepo.MarkAsReadOrUnread(id);
+            try
+            {
+                int? CreateBy = HttpContext.Session.GetInt32("UserID");
+                AppointmentRepository appointmentRepo = new AppointmentRepository();
+                TempData["message"] = appointmentRepo.MarkAsReadOrUnread(id, CreateBy);
+            }
+            catch (Exception ex) { }
             return RedirectToAction("Index");
         }
 
@@ -53,8 +58,13 @@ namespace MyWebsite.Controllers
         // GET: AppointmentsController/Edit/5
         public ActionResult Edit(int id)
         {
-            AppointmentRepository appointmentRepo = new AppointmentRepository();
-            TempData["message"] = appointmentRepo.SuspendOrRestore(id);
+            try
+            {
+                int? CreateBy = HttpContext.Session.GetInt32("UserID");
+                AppointmentRepository appointmentRepo = new AppointmentRepository();
+                TempData["message"] = appointmentRepo.SuspendOrRestore(id, CreateBy);
+            }
+            catch (Exception ex) { }
             return RedirectToAction("Index");
         }
 
@@ -93,5 +103,6 @@ namespace MyWebsite.Controllers
                 return View();
             }
         }
+
     }
 }

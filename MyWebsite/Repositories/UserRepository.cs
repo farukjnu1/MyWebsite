@@ -24,6 +24,7 @@ namespace MyWebsite.Repositories
             cmd.Parameters.AddWithValue("@Email", user.Email);
             cmd.Parameters.AddWithValue("@Password", user.Password);
             cmd.Parameters.AddWithValue("@ConfirmPassword", user.ConfirmPassword);
+            cmd.Parameters.AddWithValue("@CreateBy", user.CreateBy);
             cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.Insert);
 
             conn.Open();
@@ -44,6 +45,7 @@ namespace MyWebsite.Repositories
             //cmd.Parameters.AddWithValue("@Password", user.Password);
             cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
             cmd.Parameters.AddWithValue("@UserID", user.UserID);
+            cmd.Parameters.AddWithValue("@CreateBy", user.CreateBy);
             cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.Update);
 
             conn.Open();
@@ -63,6 +65,7 @@ namespace MyWebsite.Repositories
             //cmd.Parameters.AddWithValue("@Username", user.Username);
             //cmd.Parameters.AddWithValue("@Password", user.Password);
             cmd.Parameters.AddWithValue("@UserID", user.UserID);
+            cmd.Parameters.AddWithValue("@CreateBy", user.CreateBy);
             cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.UpdateEmail);
 
             conn.Open();
@@ -82,6 +85,7 @@ namespace MyWebsite.Repositories
             cmd.Parameters.AddWithValue("@Username", user.Username);
             //cmd.Parameters.AddWithValue("@Password", user.Password);
             cmd.Parameters.AddWithValue("@UserID", user.UserID);
+            cmd.Parameters.AddWithValue("@CreateBy", user.CreateBy);
             cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.UpdateUsername);
 
             conn.Open();
@@ -102,6 +106,7 @@ namespace MyWebsite.Repositories
             cmd.Parameters.AddWithValue("@Password", user.Password);
             cmd.Parameters.AddWithValue("@ConfirmPassword", user.ConfirmPassword);
             cmd.Parameters.AddWithValue("@UserID", user.UserID);
+            cmd.Parameters.AddWithValue("@CreateBy", user.CreateBy);
             cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.UpdatePassword);
 
             conn.Open();
@@ -118,6 +123,7 @@ namespace MyWebsite.Repositories
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@UserID", userId);
+            cmd.Parameters.AddWithValue("@CreateBy", userId);
             cmd.Parameters.AddWithValue("@QueryType", UserVM.QueryType.Delete);
 
             conn.Open();
