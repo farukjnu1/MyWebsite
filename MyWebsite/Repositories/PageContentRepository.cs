@@ -2,12 +2,39 @@
 using MyWebsite.Models;
 using System.Data;
 using MyWebsite.EF;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MyWebsite.Repositories
 {
     public class PageContentRepository
     {
         private readonly string _connectionString = "Server=Faruk-Abdullah;Database=Website;User=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=True;";
+
+        public string Update(PageContentVM model)
+        {
+            string message = "operation failed.";
+            using (var _context = new WebsiteContext())
+            {
+                PageContent? oPageContent = (from x in _context.PageContents where x.PageContentId == model.PageContentId select x).FirstOrDefault();
+                if (oPageContent != null)
+                {
+                    oPageContent.Body = model.Body;
+                    oPageContent.Footer = model.Footer;
+                    oPageContent.Header = model.Header;
+                    oPageContent.IsActive = model.IsActive;
+                    oPageContent.MediaId = model.MediaId;
+                    oPageContent.Title = model.Title;
+                    oPageContent.UploadedAt = DateTime.Now;
+                    //oPageContent.UploadedBy = model.IsActive;
+
+                    _context.SaveChanges();
+
+                    message = "data has been updated successfully.";
+                }
+
+            }
+            return message;
+        }
 
         // Read
         public List<PageContentVM> GetAll()
