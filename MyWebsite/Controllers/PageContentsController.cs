@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyWebsite.Repositories;
 
 namespace MyWebsite.Controllers
 {
@@ -41,7 +42,9 @@ namespace MyWebsite.Controllers
         // GET: PageContentsController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            PageContentRepository pcRepo = new PageContentRepository();
+            var oPageContent = pcRepo.GetById(id);
+            return View(oPageContent);
         }
 
         // POST: PageContentsController/Edit/5
