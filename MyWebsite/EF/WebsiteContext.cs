@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using MyWebsite.Models;
 
 namespace MyWebsite.EF;
 
@@ -113,6 +112,7 @@ public partial class WebsiteContext : DbContext
             entity.HasKey(e => e.MediaId).HasName("PK__Media__B2C2B5AFDE58E0E5");
 
             entity.Property(e => e.MediaId).HasColumnName("MediaID");
+            entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.FileName).HasMaxLength(255);
             entity.Property(e => e.FilePath).HasMaxLength(255);
             entity.Property(e => e.UploadedAt)
@@ -251,6 +251,4 @@ public partial class WebsiteContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-public DbSet<MyWebsite.Models.PageContentVM> PageContentVM { get; set; } = default!;
 }

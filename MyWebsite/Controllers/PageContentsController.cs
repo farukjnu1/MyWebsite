@@ -65,6 +65,10 @@ namespace MyWebsite.Controllers
         {
             try
             {
+                int? UploadedBy = HttpContext.Session.GetInt32("UserID");
+                PageContentRepository pcRepo = new PageContentRepository();
+                model.UploadedBy = UploadedBy;
+                TempData["message"] = pcRepo.Update(model);
                 #region Media
                 if (model.MediaFile != null && model.MediaFile.Length > 0)
                 {
@@ -100,14 +104,9 @@ namespace MyWebsite.Controllers
                         }
                     }
                     #endregion
+
                 }
                 #endregion
-
-                int? UploadedBy = HttpContext.Session.GetInt32("UserID");
-                PageContentRepository pcRepo = new PageContentRepository();
-                model.UploadedBy = UploadedBy;
-                TempData["message"] = pcRepo.Update(model);
-
                 return RedirectToAction("Details", "Pages", new { slug = model.SlugPage });
             }
             catch

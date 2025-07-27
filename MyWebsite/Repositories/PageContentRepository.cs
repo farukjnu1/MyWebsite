@@ -26,9 +26,15 @@ namespace MyWebsite.Repositories
                     oPageContent.Title = model.Title;
                     oPageContent.UploadedAt = DateTime.Now;
                     //oPageContent.UploadedBy = model.IsActive;
-
                     _context.SaveChanges();
-
+                    #region Media
+                    var oMedia = (from x in _context.Media where x.MediaId == oPageContent.MediaId select x).FirstOrDefault();
+                    if (oMedia != null)
+                    {
+                        oMedia.Description = model.Description;
+                        _context.SaveChanges();
+                    }
+                    #endregion
                     message = "data has been updated successfully.";
                 }
 

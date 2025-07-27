@@ -31,5 +31,6 @@ namespace MyWebsite.Models
         public string FilePath { get; set; } = null!;
 
         public IFormFile MediaFile { get; set; }
+        public string? Description { get; set; }
     }
 }
