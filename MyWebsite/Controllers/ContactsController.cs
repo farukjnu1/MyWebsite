@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyWebsite.EF;
 using MyWebsite.Fiters;
+using MyWebsite.Models;
 using MyWebsite.Repositories;
 
 namespace MyWebsite.Controllers
@@ -9,11 +11,28 @@ namespace MyWebsite.Controllers
     [AdminFilter]
     public class ContactsController : Controller
     {
+        private readonly IWebHostEnvironment _environment;
+
+        public ContactsController(IWebHostEnvironment environment)
+        {
+            _environment = environment;
+        }
+
         // GET: ContactsController
         public async Task<ActionResult> Index(int pageNumber = 1)
         {
-            ContactMessageRepository  contactRepo = new ContactMessageRepository();
-            var listContact = await contactRepo.GetAll(pageNumber);
+            List<ContactMessage> listContact = new List<ContactMessage>();
+            try 
+            {
+                ContactMessageRepository contactRepo = new ContactMessageRepository();
+                listContact = await contactRepo.GetAll(pageNumber);
+            }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return View(listContact);
         }
 
@@ -26,7 +45,12 @@ namespace MyWebsite.Controllers
                 ContactMessageRepository contactRepo = new ContactMessageRepository();
                 TempData["message"] = contactRepo.MarkAsReadOrUnread(id, CreateBy);
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return RedirectToAction("Index");
         }
 
@@ -60,7 +84,12 @@ namespace MyWebsite.Controllers
                 ContactMessageRepository contactRepo = new ContactMessageRepository();
                 TempData["message"] = contactRepo.SuspendOrRestore(id, CreateBy);
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return RedirectToAction("Index");
         }
 

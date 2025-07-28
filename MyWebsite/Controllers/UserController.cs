@@ -12,30 +12,50 @@ namespace MyWebsite.Controllers
     [AdminFilter]
     public class UserController : Controller
     {
-        private readonly ILogger<UserController> _logger;
+        private readonly IWebHostEnvironment _environment;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(IWebHostEnvironment environment)
         {
-            _logger = logger;
+            _environment = environment;
         }
 
         public IActionResult Index()
         {
-            UserRepository userRepo = new UserRepository();
-            return View(userRepo.GetAll());
+            var listUser = new List<UserVM>();
+            try 
+            {
+                UserRepository userRepo = new UserRepository();
+                listUser = userRepo.GetAll();
+            }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
+            return View();
         }
 
         public IActionResult Create()
         {
             var model = new UserVM();
-            RoleRepository roleRepo = new RoleRepository();
-            var listRole = roleRepo.GetAll();
-            List<SelectListItem> selectRoles = new List<SelectListItem>();
-            foreach (var role in listRole)
+            try 
             {
-                selectRoles.Add(new SelectListItem { Text = role.RoleName, Value = role.RoleId.ToString() });
+                RoleRepository roleRepo = new RoleRepository();
+                var listRole = roleRepo.GetAll();
+                List<SelectListItem> selectRoles = new List<SelectListItem>();
+                foreach (var role in listRole)
+                {
+                    selectRoles.Add(new SelectListItem { Text = role.RoleName, Value = role.RoleId.ToString() });
+                }
+                model.RoleOptions = selectRoles;
             }
-            model.RoleOptions = selectRoles;
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return View(model);
         }
 
@@ -50,6 +70,9 @@ namespace MyWebsite.Controllers
             }
             catch (Exception ex)
             {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
             }
             return RedirectToAction("Index");
         }
@@ -90,6 +113,9 @@ namespace MyWebsite.Controllers
             }
             catch (Exception ex)
             {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
             }
             return RedirectToAction("Index");
         }
@@ -105,6 +131,9 @@ namespace MyWebsite.Controllers
             }
             catch (Exception ex)
             {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
             }
             return RedirectToAction("Index");
         }
@@ -120,6 +149,9 @@ namespace MyWebsite.Controllers
             }
             catch (Exception ex)
             {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
             }
             return RedirectToAction("Index");
         }
@@ -135,6 +167,9 @@ namespace MyWebsite.Controllers
             }
             catch (Exception ex)
             {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
             }
             return RedirectToAction("Index");
         }

@@ -111,24 +111,6 @@ namespace MyWebsite.Controllers
             return View(listPage);
         }
 
-        //public IActionResult Contact()
-        //{
-        //    PageRepository pRepo = new PageRepository();
-        //    PageContentRepository pcRepo = new PageContentRepository();
-
-        //    var layoutPage = pRepo.GetBySlug("layout");
-        //    layoutPage.ListPageContent = pcRepo.GetBySlugPage("layout");
-
-        //    var contactPage = pRepo.GetBySlug("contact");
-        //    contactPage.ListPageContent = pcRepo.GetBySlugPage("contact");
-
-        //    var listPage = new List<PageVM>();
-        //    listPage.Add(contactPage);
-        //    listPage.Add(layoutPage);
-
-        //    return View(listPage);
-        //}
-
         public IActionResult Contact()
         {
             #region Read
@@ -144,7 +126,7 @@ namespace MyWebsite.Controllers
             var listPage = new List<PageVM>();
             listPage.Add(contactPage);
             listPage.Add(layoutPage);
-            ViewData["appointment"] = listPage;
+            ViewData["contact"] = listPage;
             #endregion
 
             #region Create

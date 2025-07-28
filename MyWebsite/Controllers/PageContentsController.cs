@@ -53,8 +53,18 @@ namespace MyWebsite.Controllers
         // GET: PageContentsController/Edit/5
         public ActionResult Edit(int id)
         {
-            PageContentRepository pcRepo = new PageContentRepository();
-            var oPageContent = pcRepo.GetById(id);
+            PageContentVM oPageContent = new PageContentVM();
+            try
+            {
+                PageContentRepository pcRepo = new PageContentRepository();
+                oPageContent = pcRepo.GetById(id);
+            }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return View(oPageContent);
         }
 
@@ -120,8 +130,11 @@ namespace MyWebsite.Controllers
                 #endregion
                 return RedirectToAction("Details", "Pages", new { slug = model.SlugPage });
             }
-            catch
+            catch (Exception ex)
             {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
                 return View();
             }
         }

@@ -1,3 +1,4 @@
+
 namespace MyWebsite.Models
 {
     public class ErrorViewModel
@@ -5,5 +6,7 @@ namespace MyWebsite.Models
         public string? RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+        
     }
 }

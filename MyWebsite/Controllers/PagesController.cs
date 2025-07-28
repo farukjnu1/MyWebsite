@@ -9,11 +9,28 @@ namespace MyWebsite.Controllers
     [AdminFilter]
     public class PagesController : Controller
     {
+        private readonly IWebHostEnvironment _environment;
+
+        public PagesController(IWebHostEnvironment environment)
+        {
+            _environment = environment;
+        }
+
         // GET: PagesController
         public ActionResult Index()
         {
-            PageRepository pageRepo = new PageRepository();
-            var listPage = pageRepo.GetAll();
+            var listPage = new List<PageVM>();
+            try
+            {
+                PageRepository pageRepo = new PageRepository();
+                listPage = pageRepo.GetAll();
+            }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return View(listPage);
         }
 
@@ -41,86 +58,26 @@ namespace MyWebsite.Controllers
         //[Route("Pages/Details/{slug}")]
         public ActionResult Details(string slug)
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
-
-            var oPage = pRepo.GetBySlug(slug);
-            oPage.ListPageContent = pcRepo.GetBySlugPage(slug);
-
             var listPage = new List<PageVM>();
-            listPage.Add(oPage);
+            try
+            {
+                PageRepository pRepo = new PageRepository();
+                PageContentRepository pcRepo = new PageContentRepository();
 
+                var oPage = pRepo.GetBySlug(slug);
+                oPage.ListPageContent = pcRepo.GetBySlugPage(slug);
+
+                listPage = new List<PageVM>();
+                listPage.Add(oPage);
+            }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return View(listPage);
         }
-
-        // GET: PagesController/Details/5
-        /*public ActionResult Details(int id)
-        {
-            return View();
-        }*/
-
-        // GET: PagesController/Create
-        /*public ActionResult Create()
-        {
-            return View();
-        }*/
-
-        // POST: PagesController/Create
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
-
-        // GET: PagesController/Edit/5
-        /*public ActionResult Edit(int id)
-        {
-            return View();
-        }*/
-
-        // POST: PagesController/Edit/5
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
-
-        // GET: PagesController/Delete/5
-        /*public ActionResult Delete(int id)
-        {
-            return View();
-        }*/
-
-        // POST: PagesController/Delete/5
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
 
     }
 }

@@ -3,7 +3,7 @@
     ViewData["Title"] = "Contact";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var viewModel = (IEnumerable<MyWebsite.Models.PageVM>)ViewData["appointment"];
+    var viewModel = (IEnumerable<MyWebsite.Models.PageVM>)ViewData["contact"];
     var oContact = viewModel.Where(x => x.Slug == "contact").FirstOrDefault() == null ? new PageVM() : viewModel.Where(x => x.Slug == "contact").First();
     var contact = oContact.ListPageContent.Where(x => x.SlugPageContent == "contact").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
                         oContact.ListPageContent.Where(x => x.SlugPageContent == "contact").First();

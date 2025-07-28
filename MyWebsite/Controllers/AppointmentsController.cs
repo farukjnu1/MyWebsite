@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyWebsite.EF;
 using MyWebsite.Fiters;
+using MyWebsite.Models;
 using MyWebsite.Repositories;
 
 namespace MyWebsite.Controllers
@@ -8,6 +10,12 @@ namespace MyWebsite.Controllers
     [AdminFilter]
     public class AppointmentsController : Controller
     {
+        private readonly IWebHostEnvironment _environment;
+
+        public AppointmentsController(IWebHostEnvironment environment)
+        {
+            _environment = environment;
+        }
         // GET: AppointmentsController
         /*public ActionResult Index()
         {
@@ -16,8 +24,18 @@ namespace MyWebsite.Controllers
 
         public async Task<ActionResult> Index(int pageNumber = 1)
         {
-            AppointmentRepository appointmentRepo = new AppointmentRepository();
-            var listAppointment = await appointmentRepo.GetAll(pageNumber);
+            List<Appointment> listAppointment = new List<Appointment>();
+            try
+            {
+                AppointmentRepository appointmentRepo = new AppointmentRepository();
+                listAppointment = await appointmentRepo.GetAll(pageNumber);
+            }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return View(listAppointment);
         }
 
@@ -30,7 +48,12 @@ namespace MyWebsite.Controllers
                 AppointmentRepository appointmentRepo = new AppointmentRepository();
                 TempData["message"] = appointmentRepo.MarkAsReadOrUnread(id, CreateBy);
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return RedirectToAction("Index");
         }
 
@@ -64,7 +87,12 @@ namespace MyWebsite.Controllers
                 AppointmentRepository appointmentRepo = new AppointmentRepository();
                 TempData["message"] = appointmentRepo.SuspendOrRestore(id, CreateBy);
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
+            }
             return RedirectToAction("Index");
         }
 

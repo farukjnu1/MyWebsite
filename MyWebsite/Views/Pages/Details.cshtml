@@ -14,14 +14,13 @@
 
     <table class="table table-bordered">
         <tr>
-            <th>#</th>
             <th>Title</th>
             <th>Header</th>
             <th>Body</th>
             <th>Footer</th>
             <th>Attachment</th>
         </tr>
-        @foreach (var item in oPage.ListPageContent)
+        @foreach (var item in oPage.ListPageContent.Where(x => x.SlugPageContent != "quick_links" && x.SlugPageContent != "our_services"))
         {
             <tr>
                 <td>
@@ -35,6 +34,8 @@
         }
     </table>
 </div>
+
+<h4 style="padding:10px">Output:</h4>
 
 @if (oPage.Slug == "about")
 {
@@ -164,7 +165,7 @@
                     <!-- 16:9 aspect ratio -->
                     <div class="ratio ratio-16x9">
                         <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
-                                allow="autoplay"></iframe>
+                        allow="autoplay"></iframe>
                     </div>
                 </div>
             </div>
@@ -174,6 +175,446 @@
 }
 
 
+@if (oPage.Slug == "home")
+{
+    var oHome = Model.Where(x => x.Slug == "home").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "home").First();
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative">
+
+        <!-- Carousel Start -->
+        <div class="header-carousel owl-carousel">
+            @foreach (var item in oHome.ListPageContent.Where(x => x.SlugPageContent == "slides" && x.IsActive == true))
+            {
+                <div class="header-carousel-item">
+                    <img src="@item.FilePath" class="img-fluid w-100" alt="Image">
+                    <div class="carousel-caption">
+                        <div class="carousel-caption-content p-3">
+                            <h5 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">@item.Title</h5>
+                            <h1 class="display-1 text-capitalize text-white mb-4">Where Beauty Meets Radiance</h1>
+                            <p class="mb-5 fs-5">
+                                @item.Body
+                            </p>
+                            <a class="btn btn-primary rounded-pill text-white py-3 px-5" href="javascript:void(0)" name="appointment">Book Appointment</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Carousel End -->
+    </div>
+    <!-- Navbar & Hero End -->
+}
 
 
+@if (oPage.Slug == "services")
+{
+    var oService = Model.Where(x => x.Slug == "services").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "services").First();
+    var ourService = oService.ListPageContent.Where(x => x.SlugPageContent == "our_services").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
+                        oService.ListPageContent.Where(x => x.SlugPageContent == "our_services").First();
+    var listService = oService.ListPageContent.Where(x => x.SlugPageContent == "services").ToList();
 
+    <!-- Services Start -->
+    <div class="container-fluid service py-5">
+        <div class="container py-5">
+            <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="sub-style">
+                    <h4 class="sub-title px-3 mb-0">What We Do</h4>
+                </div>
+                <h1 class="display-3 mb-4">@ourService.Title</h1>
+                <p class="mb-0">
+                    @ourService.Body
+                </p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                @for (var i = 0; i < listService.Count; i++)
+                {
+                    if (i < 8)
+                    {
+                        string body = string.IsNullOrEmpty(listService[i].Body) == true ? "" : Convert.ToString(listService[i].Body);
+                        body = body.Length > 100 ? body.ToString().Substring(0, 100) : body.ToString().Substring(0, body.Length);
+                        var delay = i * 0.1;
+                        <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="@delay.ToString()s">
+                            <div class="service-item rounded">
+                                <div class="service-img rounded-top">
+                                    <img src="@listService[i].FilePath" class="img-fluid rounded-top w-100" alt="">
+                                </div>
+                                <div class="service-content rounded-bottom bg-light p-4">
+                                    <div class="service-content-inner">
+                                        <h5 class="mb-4">@listService[i].Title</h5>
+                                        <p class="mb-4">@body</p>
+                                        <a href="/Home/Service/@listService[i].PageContentId" class="btn btn-primary rounded-pill text-white py-2 px-4 mb-2">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+
+                <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.2s">
+                    <a class="btn btn-primary rounded-pill text-white py-3 px-5" href="javascript:void(0)">Services More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Services End -->
+}
+
+
+@if (oPage.Slug == "our_team")
+{
+    var oOurTeam = Model.Where(x => x.Slug == "our_team").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "our_team").First();
+    var ourTeam = oOurTeam.ListPageContent.Where(x => x.SlugPageContent == "our_team").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
+                        oOurTeam.ListPageContent.Where(x => x.SlugPageContent == "our_team").First();
+    var listOurTeam = oOurTeam.ListPageContent.Where(x => x.SlugPageContent == "our_teams").ToList();
+
+    <!-- Team Start -->
+    <div class="container-fluid team py-5">
+        <div class="container py-5">
+            <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="sub-style">
+                    <h4 class="sub-title px-3 mb-0">Meet our team</h4>
+                </div>
+                <h1 class="display-3 mb-4">@ourTeam.Title</h1>
+                <p class="mb-0">@ourTeam.Body</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                @for (var i = 0; i < listOurTeam.Count; i++)
+                {
+                    if (i < 4)
+                    {
+                        var delay = i * 0.1;
+                        <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="@delay.ToString()s">
+                            <div class="team-item rounded">
+                                <div class="team-img rounded-top h-100">
+                                    <img src="@listOurTeam[i].FilePath" class="img-fluid rounded-top w-100" alt="">
+                                    @* <div class="team-icon d-flex justify-content-center">
+                                    <a class="btn btn-square btn-primary text-white rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-square btn-primary text-white rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-square btn-primary text-white rounded-circle mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                    <a class="btn btn-square btn-primary text-white rounded-circle mx-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                                </div> *@
+                                </div>
+                                <div class="team-content text-center border border-primary border-top-0 rounded-bottom p-4">
+                                    <h5>@listOurTeam[i].Title</h5>
+                                    <p class="mb-0">@listOurTeam[i].Body</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+    <!-- Team End -->
+}
+
+
+@if (oPage.Slug == "testimonial")
+{
+    var oTestimonial = Model.Where(x => x.Slug == "testimonial").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "testimonial").First();
+    var testimonial = oTestimonial.ListPageContent.Where(x => x.SlugPageContent == "testimonial").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
+                        oTestimonial.ListPageContent.Where(x => x.SlugPageContent == "testimonial").First();
+    var listTestimonial = oTestimonial.ListPageContent.Where(x => x.SlugPageContent == "testimonials").ToList();
+    <!-- Testimonial Start -->
+    <div class="container-fluid testimonial py-5 wow zoomInDown" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title mb-5">
+                <div class="sub-style">
+                    <h4 class="sub-title text-white px-3 mb-0">Testimonial</h4>
+                </div>
+                <h1 class="display-3 mb-4">@testimonial.Title</h1>
+            </div>
+            <div class="testimonial-carousel owl-carousel">
+                @foreach (var item in listTestimonial.Take(3))
+                {
+                    <div class="testimonial-item">
+                        <div class="testimonial-inner p-5">
+                            <div class="testimonial-inner-img mb-4">
+                                <img src="@item.FilePath" class="img-fluid rounded-circle" alt="">
+                            </div>
+                            <p class="text-white fs-7">
+                                @item.Body
+                            </p>
+                            <div class="text-center">
+                                <h5 class="mb-2">@item.Title</h5>
+                                <p class="mb-2 text-white-50">@item.Header</p>
+                                <div class="d-flex justify-content-center">
+                                    @for (var i = 0; i < int.Parse(item.Footer); i++)
+                                    {
+                                        <i class="fas fa-star text-secondary"></i>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
+}
+
+
+@if (oPage.Slug == "our_blog")
+{
+    var oOurBlog = Model.Where(x => x.Slug == "our_blog").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "our_blog").First();
+    var ourBlog = oOurBlog.ListPageContent.Where(x => x.SlugPageContent == "our_blog").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
+                        oOurBlog.ListPageContent.Where(x => x.SlugPageContent == "our_blog").First();
+    var listOurBlog = oOurBlog.ListPageContent.Where(x => x.SlugPageContent == "our_blogs").ToList();
+    <!-- Blog Start -->
+    <div class="container-fluid blog py-5">
+        <div class="container py-5">
+            <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="sub-style">
+                    <h4 class="sub-title px-3 mb-0">Our Blog</h4>
+                </div>
+                <h1 class="display-3 mb-4">@ourBlog.Title</h1>
+                <p class="mb-0">@ourBlog.Body</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                @for (var i = 0; i < listOurBlog.Count; i++)
+                {
+                    if (i < 3)
+                    {
+                        var delay = i * 0.1;
+                        <div class="col-md-6 col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="@delay.ToString()s">
+                            <div class="blog-item rounded">
+                                <div class="blog-img">
+                                    <img src="@listOurBlog[i].FilePath" class="img-fluid w-100" alt="Image">
+                                </div>
+                                <div class="blog-centent p-4">
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <p class="mb-0 text-muted"><i class="fa fa-calendar-alt text-primary"></i> @Convert.ToDateTime(listOurBlog[i].UploadedAt).ToString("dd MMM yyyy")</p>
+                                        <a href="#" class="text-muted"><span class="fa fa-comments text-primary"></span> Comment(s)</a>
+                                    </div>
+                                    <a href="#" class="h4">@listOurBlog[i].Title</a>
+                                    <p class="my-4">@listOurBlog[i].Body</p>
+                                    <a href="/Home/OurBlog/@listOurBlog[i].PageContentId" class="btn btn-primary rounded-pill text-white py-2 px-4 mb-1">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+    <!-- Blog End -->
+}
+
+
+@if (oPage.Slug == "contact")
+{
+    var viewModel = Model;
+    var oContact = viewModel.Where(x => x.Slug == "contact").FirstOrDefault() == null ? new PageVM() : viewModel.Where(x => x.Slug == "contact").First();
+    var contact = oContact.ListPageContent.Where(x => x.SlugPageContent == "contact").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
+                        oContact.ListPageContent.Where(x => x.SlugPageContent == "contact").First();
+
+    var map = oContact.ListPageContent.Where(x => x.SlugPageContent == "map").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
+                    oContact.ListPageContent.Where(x => x.SlugPageContent == "map").First();
+
+    var layoutPage = viewModel.Where(x => x.Slug == "layout").FirstOrDefault() == null ? new PageVM() : viewModel.Where(x => x.Slug == "layout").First();
+    var listLayout = oContact.ListPageContent.Where(x => x.SlugPage == "layout").ToList();
+
+    var oLocation = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "location").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "location").First();
+
+    var oPhone = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "phone").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "phone").First();
+
+    var oEmail = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "email").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "email").First();
+
+    var oFacebook = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "facebook").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "facebook").First();
+
+    var oTwitter = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "twitter").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "twitter").First();
+
+    var oInstagram = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "instagram").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "instagram").First();
+
+    var oLinkedin = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "linkedin").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "linkedin").First();
+
+    var oLogo = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "logo").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "logo").First();
+
+    var listQuickLink = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "quick_links").ToList();
+    var listOurService = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "our_services").ToList();
+
+    var oAddress = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "address").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "address").First();
+
+    var oEmail2 = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "email_2").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "email_2").First();
+
+    var oMobile = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "mobile").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "mobile").First();
+
+    <!-- Contact Start -->
+    <div class="container-fluid contact py-5 bg-light">
+        <div class="container py-5">
+            <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="sub-style mb-4">
+                    <h4 class="sub-title text-white px-3 mb-0">@contact.Title</h4>
+                </div>
+                <p class="mb-0 text-black-50">
+                    @contact.Body
+                </p>
+            </div>
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-5 col-xl-5 contact-form wow fadeInLeft" data-wow-delay="0.1s">
+                    <h2 class="display-5 text-white mb-2">@contact.Header</h2>
+                    <p class="mb-4 text-white">
+                        @contact.Footer
+                    </p>
+                    <form asp-controller="Home" asp-action="Contact" method="post">
+                        <div class="row g-3">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="form-floating">
+                                    <input type="text" required class="form-control bg-transparent border border-white" placeholder="Your Name">
+                                    <label for="FullName">Full Name</label>
+                                </div>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-lg-12 col-xl-6">
+                                <div class="form-floating">
+                                    <input type="email" required class="form-control bg-transparent border border-white" placeholder="Your Email">
+                                    <label for="Email">Your Email</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-xl-6">
+                                <div class="form-floating">
+                                    <input type="text" required class="form-control bg-transparent border border-white" placeholder="Phone">
+                                    <label for="Phone">Your Phone</label>
+                                </div>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" required class="form-control bg-transparent border border-white" placeholder="Subject">
+                                    <label for="Subject">Subject</label>
+                                </div>
+                                <span required class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea required class="form-control bg-transparent border border-white" placeholder="Leave a message here" style="height: 160px"></textarea>
+                                    <label for="Message">Message</label>
+                                </div>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-light text-primary w-100 py-3">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-2 col-xl-2 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="bg-transparent rounded">
+                        <div class="d-flex flex-column align-items-center text-center mb-4">
+                            <div class="bg-white d-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 50px;"><i class="fa fa-map-marker-alt fa-2x text-primary"></i></div>
+                            <h4 class="text-dark">Addresses</h4>
+                            <p class="mb-0 text-white">@oAddress.Body</p>
+                        </div>
+                        <div class="d-flex flex-column align-items-center text-center mb-4">
+                            <div class="bg-white d-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 50px;"><i class="fa fa-phone-alt fa-2x text-primary"></i></div>
+                            <h4 class="text-dark">Mobile</h4>
+                            <p class="mb-0 text-white">@oPhone.Body</p>
+                            <p class="mb-0 text-white">@oMobile.Body</p>
+                        </div>
+
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <div class="bg-white d-flex align-items-center justify-content-center mb-3" style="width: 90px; height: 90px; border-radius: 50px;"><i class="fa fa-envelope-open fa-2x text-primary"></i></div>
+                            <h4 class="text-dark">Email</h4>
+                            <p class="mb-0 text-white">@oEmail.Body</p>
+                            <p class="mb-0 text-white">@oEmail2.Body</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-xl-5 wow fadeInRight" data-wow-delay="0.3s">
+                    <div class="d-flex justify-content-center mb-4">
+                        <a class="btn btn-lg-square btn-light rounded-circle mx-2" href="@oFacebook.Body"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-lg-square btn-light rounded-circle mx-2" href="@oTwitter.Body"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-lg-square btn-light rounded-circle mx-2" href="@oInstagram.Body"><i class="fab fa-instagram"></i></a>
+                        <a class="btn btn-lg-square btn-light rounded-circle mx-2" href="@oLinkedin.Body"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <div class="rounded h-100">
+                        <iframe class="rounded w-100"
+                        style="height: 500px;" src="@map.Header"
+                        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+}
+
+
+@if (oPage.Slug == "privacy_policy")
+{
+    var oPrivacyPolicy = Model.Where(x => x.Slug == "privacy_policy").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "privacy_policy").First();
+    var privacyPolicy = oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policy").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
+                        oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policy").First();
+    var listPrivacyPolicy = oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policies").ToList();
+
+    <!-- Privacy Policy Start -->
+    <div class="container-fluid about bg-light py-5">
+        <div class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-12 wow fadeInRight" data-wow-delay="0.4s">
+                    <div class="section-title text-start mb-5">
+                        <h4 class="sub-title pe-3 mb-0">Privacy Policy</h4>
+                        <h1 class="display-3 mb-4">@privacyPolicy.Title</h1>
+                        <p class="mb-4">@privacyPolicy.Body</p>
+                        <div class="mb-4">
+                            @foreach (var item in listPrivacyPolicy)
+                            {
+                                <p class="text-secondary"><i class="fa fa-check text-primary me-2"></i> @item.Title</p>
+                            }
+                        </div>
+                        <a href="javascript:void(0)" class="btn btn-primary rounded-pill text-white py-3 px-5">Discover More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Privacy Policy End -->
+}
+
+@if (oPage.Slug == "terms_condition")
+{
+    var oTerms = Model.Where(x => x.Slug == "terms_condition").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "terms_condition").First();
+    var terms = oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_condition").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
+                        oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_condition").First();
+    var listTerms = oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_conditions").ToList();
+
+    <!--  terms_condition Start -->
+    <div class="container-fluid about bg-light py-5">
+        <div class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-12 wow fadeInRight" data-wow-delay="0.4s">
+                    <div class="section-title text-start mb-5">
+                        <h4 class="sub-title pe-3 mb-0">Terms & Conditions</h4>
+                        <h1 class="display-3 mb-4">@terms.Title</h1>
+                        <p class="mb-4">@terms.Body</p>
+                        <div class="mb-4">
+                            @foreach (var item in listTerms)
+                            {
+                                <p class="text-secondary"><i class="fa fa-check text-primary me-2"></i> @item.Title</p>
+                            }
+                        </div>
+                        <a href="javascript:void(0)" class="btn btn-primary rounded-pill text-white py-3 px-5">Discover More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  terms_condition End -->
+}
