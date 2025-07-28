@@ -65,10 +65,12 @@ namespace MyWebsite.Controllers
         {
             try
             {
+                #region PageContent Update
                 int? UploadedBy = HttpContext.Session.GetInt32("UserID");
                 PageContentRepository pcRepo = new PageContentRepository();
                 model.UploadedBy = UploadedBy;
                 TempData["message"] = pcRepo.Update(model);
+                #endregion
                 #region Media
                 if (model.MediaFile != null && model.MediaFile.Length > 0)
                 {
@@ -85,7 +87,7 @@ namespace MyWebsite.Controllers
                     string timeStamp = currentDateTime.ToString("yyyyMMdd") + "_" + currentDateTime.ToString("HHmmss") + "_" + currentDateTime.ToString("fff");
                     string uniqueFileName = $"{timeStamp}{extension}";
 
-                    var filePath = Path.Combine(uploadsFolder, Path.GetFileName(model.MediaFile.FileName));
+                    var filePath = Path.Combine(uploadsFolder, Path.GetFileName(uniqueFileName));
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
@@ -96,7 +98,7 @@ namespace MyWebsite.Controllers
                     if (!string.IsNullOrEmpty(model.FilePath))
                     {
                         string uploadPath = Path.Combine(_environment.WebRootPath, "img");
-                        string delFilePath = Path.Combine(uploadPath, model.FilePath);
+                        string delFilePath = Path.Combine(uploadPath, model.FileName);
 
                         if (System.IO.File.Exists(delFilePath))
                         {
@@ -104,7 +106,16 @@ namespace MyWebsite.Controllers
                         }
                     }
                     #endregion
-
+                    #region Media Update
+                    MediaRepository mediaRepo = new MediaRepository();
+                    MediaVM oMedia = new MediaVM();
+                    oMedia.Description = model.Description;
+                    oMedia.FileName = uniqueFileName;
+                    oMedia.FilePath = "/img/"+ uniqueFileName;
+                    oMedia.MediaId = Convert.ToInt32(model.MediaId);
+                    oMedia.UploadedBy = UploadedBy;
+                    TempData["message"] = mediaRepo.Update(oMedia);
+                    #endregion
                 }
                 #endregion
                 return RedirectToAction("Details", "Pages", new { slug = model.SlugPage });

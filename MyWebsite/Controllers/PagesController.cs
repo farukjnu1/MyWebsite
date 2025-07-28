@@ -38,6 +38,7 @@ namespace MyWebsite.Controllers
             }
         }
 
+        //[Route("Pages/Details/{slug}")]
         public ActionResult Details(string slug)
         {
             PageRepository pRepo = new PageRepository();

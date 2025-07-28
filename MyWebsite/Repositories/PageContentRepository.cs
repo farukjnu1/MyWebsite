@@ -25,7 +25,7 @@ namespace MyWebsite.Repositories
                     oPageContent.MediaId = model.MediaId;
                     oPageContent.Title = model.Title;
                     oPageContent.UploadedAt = DateTime.Now;
-                    //oPageContent.UploadedBy = model.IsActive;
+                    oPageContent.UploadedBy = model.UploadedBy;
                     _context.SaveChanges();
                     #region Media
                     var oMedia = (from x in _context.Media where x.MediaId == oPageContent.MediaId select x).FirstOrDefault();
@@ -115,6 +115,7 @@ namespace MyWebsite.Repositories
                             model.UploadedBy = reader.GetValue("UploadedBy") == DBNull.Value ? (int?)null : reader.GetInt32("UploadedBy");
                             model.FileName = reader.GetValue("FileName") == DBNull.Value ? "" : reader.GetString("FileName");
                             model.FilePath = reader.GetValue("FilePath") == DBNull.Value ? "" : reader.GetString("FilePath");
+                            model.Description = reader.GetValue("Description") == DBNull.Value ? "" : reader.GetString("Description");
                         }
                     }
                     conn.Close();

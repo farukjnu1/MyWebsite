@@ -2,6 +2,7 @@
 using MyWebsite.Models;
 using System.Data;
 using MyWebsite.EF;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyWebsite.Repositories
 {
@@ -9,70 +10,107 @@ namespace MyWebsite.Repositories
     {
         private readonly string _connectionString = "Server=Faruk-Abdullah;Database=Website;User=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=True;";
 
-        // Read
-        public List<SiteSettingVM> GetAll(UserVM user)
+        // Create
+        public string Add(MediaVM model)
         {
-            List<SiteSettingVM> list = new List<SiteSettingVM>();
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            string message = "operation failed.";
+            using (var _context = new WebsiteContext())
             {
-                using (SqlCommand cmd = new SqlCommand("SiteSetting_Read", conn))
+                Medium oMedium = new Medium();
+                oMedium.Description = model.Description;
+                oMedium.FileName = model.FileName;
+                oMedium.FilePath = model.FilePath;
+                oMedium.UploadedAt = DateTime.Now;
+                oMedium.UploadedBy = model.UploadedBy;
+
+                _context.Media.Add(oMedium);
+
+                _context.SaveChanges();
+
+                message = "media has been added successfully.";
+            }
+            return message;
+        }
+
+        // Update
+        public string Update(MediaVM model)
+        {
+            string message = "operation failed.";
+            using (var _context = new WebsiteContext())
+            {
+                var oMedium = (from x in _context.Media where x.MediaId == model.MediaId select x).FirstOrDefault();
+                if (oMedium != null)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    oMedium.Description = model.Description;
+                    oMedium.FileName = model.FileName;
+                    oMedium.FilePath = model.FilePath;
+                    oMedium.UploadedAt = DateTime.Now;
+                    oMedium.UploadedBy = model.UploadedBy;
 
-                    cmd.Parameters.AddWithValue("@QueryType", QueryType.GetAll);
+                    _context.SaveChanges();
 
-                    conn.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            SiteSettingVM model = new SiteSettingVM();
-                            model.SettingValue = reader.GetString("SettingValue");
-                            model.SettingKey = reader.GetString("SettingKey");
-
-                            list.Add(model);
-                        }
-                    }
-                    conn.Close();
+                    message = "media has been updated successfully.";
                 }
+            }
+            return message;
+        }
+
+        // Delete
+        public string Delete(int id)
+        {
+            string message = "operation failed.";
+            using (var _context = new WebsiteContext())
+            {
+                var oMedium = (from x in _context.Media where x.MediaId == id select x).FirstOrDefault();
+                if (oMedium != null)
+                {
+                    _context.Media.Remove(oMedium);
+
+                    _context.SaveChanges();
+
+                    message = "media has been removed successfully.";
+                }
+            }
+            return message;
+        }
+
+        // Read all
+        public List<MediaVM> GetAll()
+        {
+            var list = new List<MediaVM>();
+            using (var _context = new WebsiteContext())
+            {
+                list = (from x in _context.Media
+                        select new MediaVM
+                        {
+                            Description = x.Description,
+                            FileName = x.FileName, 
+                            FilePath = x.FilePath,
+                            UploadedAt = x.UploadedAt,
+                            UploadedBy = x.UploadedBy,
+                        }).ToList();
             }
             return list;
         }
 
-        // Read by id
-        public List<SiteSettingVM> GetById(string SettingKey)
+        // Read one
+        public MediaVM? GetById(int id)
         {
-            List<SiteSettingVM> list = new List<SiteSettingVM>();
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            MediaVM? model = null;
+            using (var _context = new WebsiteContext())
             {
-                using (SqlCommand cmd = new SqlCommand("SiteSetting_Read", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@SettingKey", SettingKey);
-                    cmd.Parameters.AddWithValue("@QueryType", QueryType.GetById);
-
-                    conn.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            SiteSettingVM model = new SiteSettingVM();
-                            model.SettingValue = reader.GetString("SettingValue");
-                            model.SettingKey = reader.GetString("SettingKey");
-
-                            list.Add(model);
-                        }
-                    }
-                    conn.Close();
-                }
+                model = (from x in _context.Media
+                         where x.MediaId == id
+                         select new MediaVM
+                         {
+                             Description = x.Description,
+                             FileName = x.FileName,
+                             FilePath = x.FilePath,
+                             UploadedAt = x.UploadedAt,
+                             UploadedBy = x.UploadedBy,
+                         }).FirstOrDefault();
             }
-            return list;
-        }
-
-        public enum QueryType
-        {
-            GetAll = 0, GetById = 1, Insert = 2, Update = 3, Delete = 4
+            return model;
         }
 
     }

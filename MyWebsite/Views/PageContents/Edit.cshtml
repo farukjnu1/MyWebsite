@@ -28,6 +28,8 @@
                 <input asp-for="SlugPageContent" class="form-control" />
                 <span asp-validation-for="SlugPageContent" class="text-danger"></span>
             </div> *@
+            <input type="hidden" asp-for="SlugPage" />
+            <input type="hidden" asp-for="SlugPageContent" />
             <div class="form-group">
                 <label asp-for="Header" class="control-label"></label>
                 <input asp-for="Header" class="form-control" />
@@ -48,6 +50,7 @@
                 <input asp-for="MediaId" class="form-control" />
                 <span asp-validation-for="MediaId" class="text-danger"></span>
             </div> *@
+            <input type="hidden" asp-for="MediaId" />
             <div class="form-group">
                 <label asp-for="IsActive" class="control-label"></label>
                 <input asp-for="IsActive" class="form-control" />
@@ -73,10 +76,19 @@
                 <input asp-for="FilePath" class="form-control" />
                 <span asp-validation-for="FilePath" class="text-danger"></span>
             </div> *@
-
-            <input type="file" name="UploadedFile" />
+            <input type="hidden" asp-for="UploadedBy" />
+            <input type="hidden" asp-for="UploadedAt" />
+            <input type="hidden" asp-for="FileName" />
+            <input type="hidden" asp-for="FilePath" />
+            <input type="file" asp-for="MediaFile" style="padding-top:5px" />
 
             <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="padding-top:5px">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
