@@ -22,7 +22,7 @@
                         <div class="col-sm-8">
                             <div class="video h-100">
                                 <img src="@appointment.FilePath" class="img-fluid rounded w-100 h-100" style="object-fit: cover;" alt="">
-                                <button type="button" class="btn btn-play" data-bs-toggle="modal" data-src="@appointment.Footer" data-bs-target="#videoModal">
+                                <button type="button" class="btn btn-play" data-bs-toggle="modal" data-src="@appointment.FilePath" data-bs-target="#videoModal">
                                     <span></span>
                                 </button>
                             </div>
@@ -90,7 +90,7 @@
             <div class="modal-body">
                 <!-- 16:9 aspect ratio -->
                 <div class="ratio ratio-16x9">
-                    <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
+                    <iframe class="embed-responsive-item" src="@appointment.FilePath" id="video" allowfullscreen allowscriptaccess="always"
                             allow="autoplay"></iframe>
                 </div>
             </div>

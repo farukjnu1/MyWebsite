@@ -20,7 +20,10 @@
             <th>Footer</th>
             <th>Attachment</th>
         </tr>
-        @foreach (var item in oPage.ListPageContent.Where(x => x.SlugPageContent != "quick_links" && x.SlugPageContent != "our_services"))
+        @foreach (var item in oPage.ListPageContent.Where(x => x.SlugPageContent != "quick_links" 
+        && x.SlugPageContent != "our_services" 
+        && x.SlugPageContent != "copy_right"
+        && x.SlugPageContent != "designed_by"))
         {
             <tr>
                 <td>
@@ -92,7 +95,7 @@
                         <h4 class="sub-title pe-3 mb-0">@appointment.Title</h4>
                         <h1 class="display-4 mb-4">@appointment.Header</h1>
                         <p class="mb-4">@appointment.Body</p>
-                        <div class="row g-4">
+                        @* <div class="row g-4">
                             <div class="col-sm-8">
                                 <div class="video h-100">
                                     <img src="@appointment.FilePath" class="img-fluid rounded w-100 h-100" style="object-fit: cover;" alt="">
@@ -101,7 +104,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.4s">
@@ -587,6 +590,7 @@
     </div>
     <!-- Privacy Policy End -->
 }
+
 
 @if (oPage.Slug == "terms_condition")
 {

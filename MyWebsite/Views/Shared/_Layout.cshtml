@@ -8,7 +8,6 @@
     var appointment = (from x in listMenu where x.Slug == "appointment" select x).FirstOrDefault() == null ? new MenuVM()
                         : (from x in listMenu where x.Slug == "appointment" select x).First();
     // / Home/Appointments
-
     var oLocation = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "location").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
     : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "location").First();
 
@@ -42,8 +41,14 @@
     var oEmail2 = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "email_2").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
     : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "email_2").First();
 
-    var oMobile = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "mobile").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
-    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "mobile").First();
+    var oWhatsapp = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "whatsapp").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "whatsapp").First();
+
+    var oCopyRight = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "copy_right").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "copy_right").First();
+
+    var oDesignedBy = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "designed_by").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
+    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "designed_by").First();
 
     var message = TempData["message"] as string;
 }
@@ -95,15 +100,15 @@
                 <div class="d-flex flex-wrap">
                     @if (oLocation.IsActive == true)
                     {
-                        <a href="javascript:void(0)" class="text-light me-4"><i class="fas fa-map-marker-alt text-primary me-2"></i>Find A Location</a>
+                        <a href="@oLocation.Header" target="_blank" class="text-light me-4"><i class="fas fa-map-marker-alt text-primary me-2"></i>Find A Location</a>
                     }
-                    @if (oPhone.IsActive == true)
+                    @if (oWhatsapp.IsActive == true)
                     {
-                        <a href="javascript:void(0)" class="text-light me-4"><i class="fas fa-phone-alt text-primary me-2"></i>@oPhone.Body</a>
+                        <a href="javascript:void(0)" class="text-light me-4"><i class="fab fa-whatsapp text-primary me-2"></i>@oWhatsapp.Body</a>
                     }
                     @if (oEmail.IsActive == true)
                     {
-                        <a href="javascript:void(0)" class="text-light me-0"><i class="fas fa-envelope text-primary me-2"></i>@oEmail.Body</a>
+                        <a href="@oEmail.Header" class="text-light me-0"><i class="fas fa-envelope text-primary me-2"></i>@oEmail.Body</a>
                     }
                 </div>
             </div>
@@ -111,19 +116,19 @@
                 <div class="d-flex align-items-center justify-content-end">
                     @if (oFacebook.IsActive == true)
                     {
-                        <a href="@oFacebook.Body" class="btn btn-light btn-square border rounded-circle nav-fill me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="@oFacebook.Header" target="_blank" class="btn btn-light btn-square border rounded-circle nav-fill me-3"><i class="fab fa-facebook-f"></i></a>
                     }
                     @if (oTwitter.IsActive == true)
                     {
-                        <a href="@oTwitter.Body" class="btn btn-light btn-square border rounded-circle nav-fill me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="@oTwitter.Header" target="_blank" class="btn btn-light btn-square border rounded-circle nav-fill me-3"><i class="fab fa-twitter"></i></a>
                     }
                     @if (oInstagram.IsActive == true)
                     {
-                        <a href="@oInstagram.Body" class="btn btn-light btn-square border rounded-circle nav-fill me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="@oInstagram.Header" target="_blank" class="btn btn-light btn-square border rounded-circle nav-fill me-3"><i class="fab fa-instagram"></i></a>
                     }
                     @if (oLinkedin.IsActive == true)
                     {
-                        <a href="@oLinkedin.Body" class="btn btn-light btn-square border rounded-circle nav-fill me-0"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="@oLinkedin.Header" target="_blank" class="btn btn-light btn-square border rounded-circle nav-fill me-0"><i class="fab fa-linkedin-in"></i></a>
                     }
                 </div>
             </div>
@@ -202,19 +207,19 @@
                             <i class="fas fa-share fa-2x text-white me-2"></i>
                             @if (oFacebook.IsActive == true)
                             {
-                                <a class="btn-square btn btn-primary text-white rounded-circle mx-1" href="@oFacebook.Body"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn-square btn btn-primary text-white rounded-circle mx-1" href="@oFacebook.Header" target="_blank"><i class="fab fa-facebook-f"></i></a>
                             }
                             @if (oTwitter.IsActive == true)
                             {
-                                <a class="btn-square btn btn-primary text-white rounded-circle mx-1" href="@oTwitter.Body"><i class="fab fa-twitter"></i></a>
+                                <a class="btn-square btn btn-primary text-white rounded-circle mx-1" href="@oTwitter.Header" target="_blank"><i class="fab fa-twitter"></i></a>
                             }
                             @if (oInstagram.IsActive == true)
                             {
-                                <a class="btn-square btn btn-primary text-white rounded-circle mx-1" href="@oInstagram.Body"><i class="fab fa-instagram"></i></a>
+                                <a class="btn-square btn btn-primary text-white rounded-circle mx-1" href="@oInstagram.Header" target="_blank"><i class="fab fa-instagram"></i></a>
                             }
                             @if (oLinkedin.IsActive == true)
                             {
-                                <a class="btn-square btn btn-primary text-white rounded-circle mx-1" href="@oLinkedin.Body"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="btn-square btn btn-primary text-white rounded-circle mx-1" href="@oLinkedin.Header" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                             }
                         </div>
                     </div>
@@ -252,19 +257,19 @@
                         }
                         @if (oEmail.IsActive == true)
                         {
-                            <a href="javascript:void(0)"><i class="fas fa-envelope me-2"></i> @oEmail.Body</a>
+                            <a href="@oEmail.Header"><i class="fas fa-envelope me-2"></i> @oEmail.Body</a>
                         }
                         @if (oEmail2.IsActive == true)
                         {
-                            <a href="javascript:void(0)"><i class="fas fa-envelope me-2"></i> @oEmail2.Body</a>
+                            <a href="@oEmail2.Header"><i class="fas fa-envelope me-2"></i> @oEmail2.Body</a>
                         }
                         @if (oPhone.IsActive == true)
                         {
-                            <a href="javascript:void(0)"><i class="fas fa-envelope me-2"></i> @oPhone.Body</a>
+                            <a href="javascript:void(0)"><i class="fas fa-phone me-2"></i> @oPhone.Body</a>
                         }
-                        @if (oMobile.IsActive == true)
+                        @if (oWhatsapp.IsActive == true)
                         {
-                            <a href="javascript:void(0)" class="mb-3"><i class="fas fa-mobile me-2"></i> @oMobile.Body</a>
+                            <a href="javascript:void(0)" class="mb-3"><i class="fab fa-whatsapp me-2"></i> @oWhatsapp.Body</a>
                         }
                     </div>
                 </div>
@@ -277,10 +282,16 @@
         <div class="container">
             <div class="row g-4 align-items-center">
                 <div class="col-md-6 text-center text-md-start mb-md-0">
-                    <span class="text-white"><a href="http://faruk-abdullah.runasp.net/" target="_blank"><i class="fas fa-copyright text-light me-2"></i>faruk-abdullah.runasp.net</a>, All right reserved.</span>
+                    @if (oCopyRight.IsActive == true)
+                    {
+                        <span class="text-white"><a href="@oCopyRight.Header" target="_blank"><i class="fas fa-copyright text-light me-2"></i>@oCopyRight.Title</a>, @oCopyRight.Body.</span>
+                    }      
                 </div>
                 <div class="col-md-6 text-center text-md-end text-white">
-                    Designed By <a class="border-bottom" href="https://www.linkedin.com/in/faruk-abdullah/" target="_blank">Faruk Abdullah</a>
+                    @if (oDesignedBy.IsActive == true)
+                    {
+                        <span>@oDesignedBy.Title</span> <a class="border-bottom" href="@oDesignedBy.Header" target="_blank">@oDesignedBy.Body</a>
+                    }
                 </div>
             </div>
         </div>

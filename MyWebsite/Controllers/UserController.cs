@@ -33,7 +33,7 @@ namespace MyWebsite.Controllers
                 error.WriteLog(ex.StackTrace);
                 TempData["message"] = "Exception!";
             }
-            return View();
+            return View(listUser);
         }
 
         public IActionResult Create()
