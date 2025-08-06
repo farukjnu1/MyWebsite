@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Details";
     //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutReview.cshtml";
 
     var oPage = Model == null ? new PageVM() : Model.First();
 }
@@ -10,32 +10,35 @@
 <div class="container-fluid">
     <h4 style="padding-top:100px">Details of</h4>
     <h1 class="text-danger">@oPage.Title PAGE</h1>
+    <a href="/Pages">Back to List</a>
     <hr />
-
-    <table class="table table-bordered">
-        <tr>
-            <th>Title</th>
-            <th>Header</th>
-            <th>Body</th>
-            <th>Footer</th>
-            <th>Attachment</th>
-        </tr>
-        @foreach (var item in oPage.ListPageContent.Where(x => x.SlugPageContent != "quick_links" 
-        && x.SlugPageContent != "our_services" 
-        && x.SlugPageContent != "copy_right"
-        && x.SlugPageContent != "designed_by"))
-        {
+    <div class="table-responsive">
+        <table class="table table-bordered table-responsive">
             <tr>
-                <td>
-                    <a href="/PageContents/Edit/@item.PageContentId">@item.Title</a>
-                </td>
-                <td>@item.Header</td>
-                <td>@item.Body</td>
-                <td>@item.Footer</td>
-                <td><img src="@item.FilePath" style="width:150px" /></td>
+                <th>Title</th>
+                <th>Header</th>
+                <th>Body</th>
+                <th>Footer</th>
+                <th>Attachment</th>
             </tr>
-        }
-    </table>
+            @foreach (var item in oPage.ListPageContent.Where(x => x.SlugPageContent != "quick_links"
+            && x.SlugPageContent != "our_services"
+            && x.SlugPageContent != "copy_right"
+            && x.SlugPageContent != "designed_by"))
+            {
+                <tr>
+                    <td>
+                        <a href="/PageContents/Edit/@item.PageContentId">@item.Title</a>
+                    </td>
+                    <td>@item.Header</td>
+                    <td>@item.Body</td>
+                    <td>@item.Footer</td>
+                    <td><img src="@item.FilePath" style="width:150px" /></td>
+                </tr>
+            }
+        </table>
+    </div>
+    
 </div>
 
 <h4 style="padding:10px">Output:</h4>

@@ -19,4 +19,8 @@
     <Folder Include="wwwroot\logs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Shared\_LayoutReview.cshtml" />
+  </ItemGroup>
+
 </Project>

@@ -4,14 +4,10 @@
     var menuRepo = new MyWebsite.Repositories.MenuRepository();
     var layoutPage = pRepo.GetBySlug("layout");
     layoutPage.ListPageContent = pcRepo.GetBySlugPage("layout");
-
     var listMenu = menuRepo.GetAll();
-    string? urL = Context.Session.GetString("urL");
-
     var appointment = (from x in listMenu where x.Slug == "appointment" select x).FirstOrDefault() == null ? new MenuVM()
                         : (from x in listMenu where x.Slug == "appointment" select x).First();
-    // /Home/Appointments
-
+    // / Home/Appointments
     var oLocation = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "location").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
     : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "location").First();
 
@@ -62,7 +58,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Celestial Glow</title>
+    <title>Terapia - Physical Therapy Website Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -152,15 +148,16 @@
                     <h1 class="text-primary m-0">YOUR-LOGO</h1>
                 }
                 <!-- <img src="img/logo.png" alt="Logo"> -->
+                Admin Review
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
+            @* <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
                     @foreach (var item in listMenu.Where(x => x.Slug != "appointment"))
                     {
-                        if (item.Content == urL)
+                        if (item.Slug == "home")
                         {
                             <a href="@item.Content" class="nav-item nav-link active">@item.Label</a>
                         }
@@ -171,7 +168,7 @@
                     }
                 </div>
                 <a href="@appointment.Content" id="appointment" class="btn btn-primary rounded-pill text-white py-2 px-4 flex-wrap flex-sm-shrink-0">@appointment.Title</a>
-            </div>
+            </div> *@
         </nav>
     </div>
 
