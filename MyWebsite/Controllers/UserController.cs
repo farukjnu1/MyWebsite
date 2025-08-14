@@ -83,19 +83,28 @@ namespace MyWebsite.Controllers
         public IActionResult Edit(int id, UserVM.QueryType queryType)
         {
             var model = new UserVM();
-            UserRepository userRepo = new UserRepository(_connectionString);
-            model = userRepo.GetById(id);
-            if (model != null)
+            try
             {
-                RoleRepository roleRepo = new RoleRepository(_connectionString);
-                var listRole = roleRepo.GetAll();
-                List<SelectListItem> selectRoles = new List<SelectListItem>();
-                foreach (var role in listRole)
+                UserRepository userRepo = new UserRepository(_connectionString);
+                model = userRepo.GetById(id);
+                if (model != null)
                 {
-                    selectRoles.Add(new SelectListItem { Text = role.RoleName, Value = role.RoleId.ToString() });
+                    RoleRepository roleRepo = new RoleRepository(_connectionString);
+                    var listRole = roleRepo.GetAll();
+                    List<SelectListItem> selectRoles = new List<SelectListItem>();
+                    foreach (var role in listRole)
+                    {
+                        selectRoles.Add(new SelectListItem { Text = role.RoleName, Value = role.RoleId.ToString() });
+                    }
+                    model.RoleOptions = selectRoles;
+                    model.QueryTypes = queryType;
                 }
-                model.RoleOptions = selectRoles;
-                model.QueryTypes = queryType;
+            }
+            catch (Exception ex)
+            {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
             }
             return View(model);
         }
