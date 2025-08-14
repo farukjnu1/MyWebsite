@@ -8,7 +8,11 @@ namespace MyWebsite.Repositories
 {
     public class PageContentRepository
     {
-        private readonly string _connectionString = "Server=Faruk-Abdullah;Database=Website;User=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _connectionString = "";
+        public PageContentRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         public string Update(PageContentVM model)
         {

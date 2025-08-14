@@ -10,10 +10,13 @@ namespace MyWebsite.Controllers
     [AdminFilter]
     public class PageContentsController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+        private readonly string _connectionString;
         private readonly IWebHostEnvironment _environment;
-
-        public PageContentsController(IWebHostEnvironment environment)
+        public PageContentsController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
+            _logger = logger;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
             _environment = environment;
         }
 
@@ -56,7 +59,7 @@ namespace MyWebsite.Controllers
             PageContentVM oPageContent = new PageContentVM();
             try
             {
-                PageContentRepository pcRepo = new PageContentRepository();
+                PageContentRepository pcRepo = new PageContentRepository(_connectionString);
                 oPageContent = pcRepo.GetById(id);
             }
             catch (Exception ex)
@@ -77,7 +80,7 @@ namespace MyWebsite.Controllers
             {
                 #region PageContent Update
                 int? UploadedBy = HttpContext.Session.GetInt32("UserID");
-                PageContentRepository pcRepo = new PageContentRepository();
+                PageContentRepository pcRepo = new PageContentRepository(_connectionString);
                 model.UploadedBy = UploadedBy;
                 TempData["message"] = pcRepo.Update(model);
                 #endregion
@@ -117,7 +120,7 @@ namespace MyWebsite.Controllers
                     }
                     #endregion
                     #region Media Update
-                    MediaRepository mediaRepo = new MediaRepository();
+                    MediaRepository mediaRepo = new MediaRepository(_connectionString);
                     MediaVM oMedia = new MediaVM();
                     oMedia.Description = model.Description;
                     oMedia.FileName = uniqueFileName;

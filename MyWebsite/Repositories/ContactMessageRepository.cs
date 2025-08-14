@@ -77,29 +77,6 @@ namespace MyWebsite.Repositories
         }
 
         // Read all
-        /*public async List<ContactMessageVM> GetAll(int pageNumber = 1)
-        {
-            var list = new List<ContactMessageVM>();
-            using (var _context = new WebsiteContext())
-            {
-                list = (from x in _context.ContactMessages
-                        select new ContactMessageVM
-                        {
-                            ContactMessageId = x.ContactMessageId,
-                            CreateAt = x.CreateAt,
-                            Email = x.Email,
-                            FullName = x.FullName,
-                            IsActive = x.IsActive,
-                            Message = x.Message,
-                            Phone = x.Phone,
-                            Subject = x.Subject,
-                            IsRead = x.IsRead,
-                            ReadBy = x.ReadBy
-                        }).ToList();
-            }
-            return list;
-        }*/
-
         public async Task<List<ContactMessage>> GetAll(int pageNumber = 1)
         {
             var list = new List<ContactMessage>();

@@ -1,7 +1,7 @@
 ﻿@{
-    var pRepo = new MyWebsite.Repositories.PageRepository();
-    var pcRepo = new MyWebsite.Repositories.PageContentRepository();
-    var menuRepo = new MyWebsite.Repositories.MenuRepository();
+    var pRepo = new MyWebsite.Repositories.PageRepository(WebsiteConfig.ConnectionString);
+    var pcRepo = new MyWebsite.Repositories.PageContentRepository(WebsiteConfig.ConnectionString);
+    var menuRepo = new MyWebsite.Repositories.MenuRepository(WebsiteConfig.ConnectionString);
     var layoutPage = pRepo.GetBySlug("layout");
     layoutPage.ListPageContent = pcRepo.GetBySlugPage("layout");
 

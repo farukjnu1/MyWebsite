@@ -10,12 +10,16 @@ namespace MyWebsite.Controllers
     [AdminFilter]
     public class AppointmentsController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+        private readonly string _connectionString;
         private readonly IWebHostEnvironment _environment;
-
-        public AppointmentsController(IWebHostEnvironment environment)
+        public AppointmentsController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
+            _logger = logger;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
             _environment = environment;
         }
+
         // GET: AppointmentsController
         /*public ActionResult Index()
         {

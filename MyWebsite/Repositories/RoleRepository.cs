@@ -7,8 +7,11 @@ namespace MyWebsite.Repositories
 {
     public class RoleRepository
     {
-        private readonly string _connectionString = "Server=Faruk-Abdullah;Database=Website;User=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=True;";
-        public RoleRepository() { }
+        private readonly string _connectionString = "";
+        public RoleRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         // Read all
         public List<RoleVM> GetAll()

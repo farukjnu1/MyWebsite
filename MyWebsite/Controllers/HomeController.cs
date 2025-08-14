@@ -12,16 +12,19 @@ namespace MyWebsite.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly string _connectionString;
+        private readonly IWebHostEnvironment _environment;
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
             _logger = logger;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _environment = environment;
         }
 
         public IActionResult Index()
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var homePage = pRepo.GetBySlug("home");
             homePage.ListPageContent = pcRepo.GetBySlugPage("home");
@@ -58,8 +61,8 @@ namespace MyWebsite.Controllers
 
         public IActionResult About()
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var aboutPage = pRepo.GetBySlug("about");
             aboutPage.ListPageContent = pcRepo.GetBySlugPage("about");
@@ -72,8 +75,8 @@ namespace MyWebsite.Controllers
 
         public IActionResult Services()
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var servicePage = pRepo.GetBySlug("services");
             servicePage.ListPageContent = pcRepo.GetBySlugPage("services");
@@ -86,8 +89,8 @@ namespace MyWebsite.Controllers
 
         public IActionResult Service(int id)
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var servicePage = pRepo.GetBySlug("services");
             var oService = pcRepo.GetById(id);
@@ -101,8 +104,8 @@ namespace MyWebsite.Controllers
 
         public IActionResult OurTeams()
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var ourTeamPage = pRepo.GetBySlug("our_team");
             ourTeamPage.ListPageContent = pcRepo.GetBySlugPage("our_team");
@@ -116,8 +119,8 @@ namespace MyWebsite.Controllers
         public IActionResult Contact()
         {
             #region Read
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var layoutPage = pRepo.GetBySlug("layout");
             layoutPage.ListPageContent = pcRepo.GetBySlugPage("layout");
@@ -148,14 +151,17 @@ namespace MyWebsite.Controllers
             }
             catch (Exception ex)
             {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
             }
             return RedirectToAction("Appointments");
         }
 
         public IActionResult OurBlogs()
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var ourBlogPage = pRepo.GetBySlug("our_blog");
             ourBlogPage.ListPageContent = pcRepo.GetBySlugPage("our_blog");
@@ -168,8 +174,8 @@ namespace MyWebsite.Controllers
 
         public IActionResult OurBlog(int id)
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var ourBlogPage = pRepo.GetBySlug("our_blog");
             ourBlogPage.ListPageContent.Add(pcRepo.GetById(id));
@@ -183,8 +189,8 @@ namespace MyWebsite.Controllers
         public IActionResult Appointments()
         {
             #region Read
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var appointmentPage = pRepo.GetBySlug("appointment");
             appointmentPage.ListPageContent = pcRepo.GetBySlugPage("appointment");
@@ -227,14 +233,17 @@ namespace MyWebsite.Controllers
             }
             catch (Exception ex)
             {
+                ErrorVM error = new ErrorVM(_environment);
+                error.WriteLog(ex.StackTrace);
+                TempData["message"] = "Exception!";
             }
             return RedirectToAction("Appointments");
         }
 
         public IActionResult Testimonials()
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var testimonialPage = pRepo.GetBySlug("testimonial");
             testimonialPage.ListPageContent = pcRepo.GetBySlugPage("testimonial");
@@ -247,8 +256,8 @@ namespace MyWebsite.Controllers
 
         public IActionResult Privacy()
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var privacyPolicyPage = pRepo.GetBySlug("privacy_policy");
             privacyPolicyPage.ListPageContent = pcRepo.GetBySlugPage("privacy_policy");
@@ -261,8 +270,8 @@ namespace MyWebsite.Controllers
 
         public IActionResult Terms()
         {
-            PageRepository pRepo = new PageRepository();
-            PageContentRepository pcRepo = new PageContentRepository();
+            PageRepository pRepo = new PageRepository(_connectionString);
+            PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
             var termsConditionPage = pRepo.GetBySlug("terms_condition");
             termsConditionPage.ListPageContent = pcRepo.GetBySlugPage("terms_condition");

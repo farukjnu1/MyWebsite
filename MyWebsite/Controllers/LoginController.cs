@@ -9,6 +9,16 @@ namespace MyWebsite.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+        private readonly string _connectionString;
+        private readonly IWebHostEnvironment _environment;
+        public LoginController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
+        {
+            _logger = logger;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _environment = environment;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -19,7 +29,7 @@ namespace MyWebsite.Controllers
         {
             try
             {
-                UserRepository userRepo = new UserRepository();
+                UserRepository userRepo = new UserRepository(_connectionString);
                 UserVM oUser = userRepo.Login(model);
                 if (oUser != null) 
                 {

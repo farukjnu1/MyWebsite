@@ -96,31 +96,6 @@ namespace MyWebsite.Repositories
         }
 
         // Read all
-        /*public List<AppointmentVM> GetAll()
-        {
-            var list = new List<AppointmentVM>();
-            using (var _context = new WebsiteContext())
-            {
-                list = (from x in _context.Appointments
-                         select new AppointmentVM
-                         {
-                             Address = x.Address,
-                             Age = x.Age,
-                             AppointmentDate = x.AppointmentDate,
-                             AppointmentId = x.AppointmentId,
-                             CreateAt = x.CreateAt,
-                             Email = x.Email,
-                             FullName = x.FullName,
-                             Gender = x.Gender,
-                             IsActive = x.IsActive,
-                             Phone = x.Phone,
-                             ProblemDetail = x.ProblemDetail,
-                             SpecialistId = x.SpecialistId  
-                         }).ToList();
-            }
-            return list;
-        }*/
-
         public async Task<List<Appointment>> GetAll(int pageNumber = 1)
         {
             var list = new List<Appointment>();

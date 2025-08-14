@@ -7,7 +7,11 @@ namespace MyWebsite.Repositories
 {
     public class MenuRepository
     {
-        private readonly string _connectionString = "Server=Faruk-Abdullah;Database=Website;User=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _connectionString = "";
+        public MenuRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         // Read
         public List<MenuVM> GetAll()

@@ -9,10 +9,13 @@ namespace MyWebsite.Controllers
     [AdminFilter]
     public class PagesController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+        private readonly string _connectionString;
         private readonly IWebHostEnvironment _environment;
-
-        public PagesController(IWebHostEnvironment environment)
+        public PagesController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
+            _logger = logger;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
             _environment = environment;
         }
 
@@ -22,7 +25,7 @@ namespace MyWebsite.Controllers
             var listPage = new List<PageVM>();
             try
             {
-                PageRepository pageRepo = new PageRepository();
+                PageRepository pageRepo = new PageRepository(_connectionString);
                 listPage = pageRepo.GetAll();
             }
             catch (Exception ex)
@@ -61,8 +64,8 @@ namespace MyWebsite.Controllers
             var listPage = new List<PageVM>();
             try
             {
-                PageRepository pRepo = new PageRepository();
-                PageContentRepository pcRepo = new PageContentRepository();
+                PageRepository pRepo = new PageRepository(_connectionString);
+                PageContentRepository pcRepo = new PageContentRepository(_connectionString);
 
                 var oPage = pRepo.GetBySlug(slug);
                 oPage.ListPageContent = pcRepo.GetBySlugPage(slug);

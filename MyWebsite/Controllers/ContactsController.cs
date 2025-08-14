@@ -11,10 +11,13 @@ namespace MyWebsite.Controllers
     [AdminFilter]
     public class ContactsController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+        private readonly string _connectionString;
         private readonly IWebHostEnvironment _environment;
-
-        public ContactsController(IWebHostEnvironment environment)
+        public ContactsController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
+            _logger = logger;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
             _environment = environment;
         }
 

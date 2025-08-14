@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using MyWebsite.Models;
 using MyWebsite.Repositories;
 
 namespace MyWebsite.Fiters
@@ -18,8 +19,8 @@ namespace MyWebsite.Fiters
                     //context.Result = new RedirectToActionResult("Index", "Pages", null);
                     //var Action = context.ActionDescriptor.RouteValues["Action"];
                     string? controller = context.ActionDescriptor.RouteValues["Controller"];
-                    var roleRepo = new RoleRepository();
-                    var userRepo = new UserRepository();
+                    var roleRepo = new RoleRepository(WebsiteConfig.ConnectionString);
+                    var userRepo = new UserRepository(WebsiteConfig.ConnectionString);
                     var oUser = userRepo.GetById((int)UserId);
                     if (oUser != null)
                     {

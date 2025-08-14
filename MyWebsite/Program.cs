@@ -14,6 +14,8 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddControllersWithViews();
 
+string connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

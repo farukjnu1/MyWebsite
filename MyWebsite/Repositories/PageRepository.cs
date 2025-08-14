@@ -7,7 +7,11 @@ namespace MyWebsite.Repositories
 {
     public class PageRepository
     {
-        private readonly string _connectionString = "Server=Faruk-Abdullah;Database=Website;User=sa;Password=123;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _connectionString = "";
+        public PageRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
         // Read
         public List<PageVM> GetAll()

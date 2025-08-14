@@ -12,10 +12,13 @@ namespace MyWebsite.Controllers
     [AdminFilter]
     public class UserController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+        private readonly string _connectionString;
         private readonly IWebHostEnvironment _environment;
-
-        public UserController(IWebHostEnvironment environment)
+        public UserController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
+            _logger = logger;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
             _environment = environment;
         }
 
@@ -24,7 +27,7 @@ namespace MyWebsite.Controllers
             var listUser = new List<UserVM>();
             try 
             {
-                UserRepository userRepo = new UserRepository();
+                UserRepository userRepo = new UserRepository(_connectionString);
                 listUser = userRepo.GetAll();
             }
             catch (Exception ex)
@@ -41,7 +44,7 @@ namespace MyWebsite.Controllers
             var model = new UserVM();
             try 
             {
-                RoleRepository roleRepo = new RoleRepository();
+                RoleRepository roleRepo = new RoleRepository(_connectionString);
                 var listRole = roleRepo.GetAll();
                 List<SelectListItem> selectRoles = new List<SelectListItem>();
                 foreach (var role in listRole)
@@ -65,7 +68,7 @@ namespace MyWebsite.Controllers
             try
             {
                 model.CreateBy = HttpContext.Session.GetInt32("UserID");
-                UserRepository userRepo = new UserRepository();
+                UserRepository userRepo = new UserRepository(_connectionString);
                 TempData["message"] = userRepo.Add(model);
             }
             catch (Exception ex)
@@ -80,11 +83,11 @@ namespace MyWebsite.Controllers
         public IActionResult Edit(int id, UserVM.QueryType queryType)
         {
             var model = new UserVM();
-            UserRepository userRepo = new UserRepository();
+            UserRepository userRepo = new UserRepository(_connectionString);
             model = userRepo.GetById(id);
             if (model != null)
             {
-                RoleRepository roleRepo = new RoleRepository();
+                RoleRepository roleRepo = new RoleRepository(_connectionString);
                 var listRole = roleRepo.GetAll();
                 List<SelectListItem> selectRoles = new List<SelectListItem>();
                 foreach (var role in listRole)
@@ -103,11 +106,11 @@ namespace MyWebsite.Controllers
             try
             {
                 model.CreateBy = HttpContext.Session.GetInt32("UserID");
-                UserRepository userRepo = new UserRepository();
+                UserRepository userRepo = new UserRepository(_connectionString);
                 TempData["message"] = userRepo.Update(model);
                 if (model.RoleId > 0)
                 {
-                    RoleRepository roleRepo = new RoleRepository();
+                    RoleRepository roleRepo = new RoleRepository(_connectionString);
                     roleRepo.SetUserRole(model);
                 }
             }
@@ -126,7 +129,7 @@ namespace MyWebsite.Controllers
             try
             {
                 model.CreateBy = HttpContext.Session.GetInt32("UserID");
-                UserRepository userRepo = new UserRepository();
+                UserRepository userRepo = new UserRepository(_connectionString);
                 TempData["message"] = userRepo.UpdateEmail(model);
             }
             catch (Exception ex)
@@ -144,7 +147,7 @@ namespace MyWebsite.Controllers
             try
             {
                 model.CreateBy = HttpContext.Session.GetInt32("UserID");
-                UserRepository userRepo = new UserRepository();
+                UserRepository userRepo = new UserRepository(_connectionString);
                 TempData["message"] = userRepo.UpdateUsername(model);
             }
             catch (Exception ex)
@@ -162,7 +165,7 @@ namespace MyWebsite.Controllers
             try
             {
                 model.CreateBy = HttpContext.Session.GetInt32("UserID");
-                UserRepository userRepo = new UserRepository();
+                UserRepository userRepo = new UserRepository(_connectionString);
                 TempData["message"] = userRepo.UpdatePassword(model);
             }
             catch (Exception ex)
