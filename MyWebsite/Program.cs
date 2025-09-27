@@ -14,15 +14,24 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddControllersWithViews();
 
-string connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
+string connectionString = builder.Configuration["ConnectionStrings:WebsiteContext"];
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+/*if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+}*/
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseDeveloperExceptionPage();
+}
+
 app.UseRouting();
 
 app.UseSession();

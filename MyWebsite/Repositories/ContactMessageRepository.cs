@@ -48,7 +48,7 @@ namespace MyWebsite.Repositories
                     oContactMessage.Subject = model.Subject;
                     oContactMessage.IsRead = model.IsRead;
                     oContactMessage.ReadBy = model.ReadBy;
-                    oContactMessage.CreateBy = model.CreateBy;
+                    //oContactMessage.CreateBy = model.CreateBy;
                     _context.SaveChanges();
 
                     message = "data has been updated successfully.";
@@ -85,6 +85,7 @@ namespace MyWebsite.Repositories
                 int pageSize = 10;
                 var listContact = _context.ContactMessages.AsNoTracking();
                 list = await PaginatedList<ContactMessage>.CreateAsync(listContact, pageNumber, pageSize);
+                //list = await _context.ContactMessages.ToListAsync();
             }
             return list;
         }
@@ -125,7 +126,7 @@ namespace MyWebsite.Repositories
                 var oContactMessage = _context.ContactMessages.Where(x=>x.ContactMessageId == id).FirstOrDefault();
                 if (oContactMessage != null)
                 {
-                    oContactMessage.CreateBy = CreateBy;
+                    //oContactMessage.CreateBy = CreateBy;
                     oContactMessage.ReadBy = CreateBy;
                     oContactMessage.IsRead = oContactMessage.IsRead == true ? false : true;
                     _context.SaveChanges();

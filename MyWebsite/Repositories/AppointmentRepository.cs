@@ -65,7 +65,7 @@ namespace MyWebsite.Repositories
                     oAppointment.DepartmentId = model.DepartmentId;
                     oAppointment.IsRead = model.IsRead;
                     oAppointment.ReadBy = model.ReadBy;
-                    oAppointment.CreateBy = model.CreateBy;
+                    //oAppointment.CreateBy = model.CreateBy;
 
                     _context.SaveChanges();
 
@@ -104,6 +104,7 @@ namespace MyWebsite.Repositories
                 int pageSize = 10;
                 var listAppointment = _context.Appointments.AsNoTracking();
                 list = await PaginatedList<Appointment>.CreateAsync(listAppointment, pageNumber, pageSize);
+                //list = await _context.Appointments.ToListAsync();
             }
             return list;
         }
@@ -144,7 +145,7 @@ namespace MyWebsite.Repositories
                 var oAppointment = _context.Appointments.Where(x => x.AppointmentId == id).FirstOrDefault();
                 if (oAppointment != null)
                 {
-                    oAppointment.CreateBy = CreateBy;
+                    //oAppointment.CreateBy = CreateBy;
                     oAppointment.ReadBy = CreateBy;
                     oAppointment.IsRead = oAppointment.IsRead == true ? false : true;
                     _context.SaveChanges();

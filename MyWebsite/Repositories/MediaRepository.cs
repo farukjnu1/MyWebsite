@@ -20,7 +20,7 @@ namespace MyWebsite.Repositories
             using (var _context = new WebsiteContext())
             {
                 Medium oMedium = new Medium();
-                oMedium.Description = model.Description;
+                //oMedium.Description = model.Description;
                 oMedium.FileName = model.FileName;
                 oMedium.FilePath = model.FilePath;
                 oMedium.UploadedAt = DateTime.Now;
@@ -44,7 +44,7 @@ namespace MyWebsite.Repositories
                 var oMedium = (from x in _context.Media where x.MediaId == model.MediaId select x).FirstOrDefault();
                 if (oMedium != null)
                 {
-                    oMedium.Description = model.Description;
+                    //oMedium.Description = model.Description;
                     oMedium.FileName = model.FileName;
                     oMedium.FilePath = model.FilePath;
                     oMedium.UploadedAt = DateTime.Now;
@@ -86,7 +86,7 @@ namespace MyWebsite.Repositories
                 list = (from x in _context.Media
                         select new MediaVM
                         {
-                            Description = x.Description,
+                            //Description = x.Description,
                             FileName = x.FileName, 
                             FilePath = x.FilePath,
                             UploadedAt = x.UploadedAt,

@@ -16,16 +16,11 @@ namespace MyWebsite.Controllers
         public AppointmentsController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
             _logger = logger;
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = configuration.GetConnectionString("WebsiteContext");
             _environment = environment;
         }
 
         // GET: AppointmentsController
-        /*public ActionResult Index()
-        {
-            return View();
-        }*/
-
         public async Task<ActionResult> Index(int pageNumber = 1)
         {
             List<Appointment> listAppointment = new List<Appointment>();

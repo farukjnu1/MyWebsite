@@ -33,7 +33,7 @@ namespace MyWebsite.Fiters
                             }
                             else
                             {
-                                context.Result = new RedirectToActionResult("Index", "Pages", null);
+                                context.Result = new RedirectToActionResult("Index", "Login", null);
                             }
                         }
                         else

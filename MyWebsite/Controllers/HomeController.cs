@@ -17,7 +17,7 @@ namespace MyWebsite.Controllers
         public HomeController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
             _logger = logger;
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = configuration.GetConnectionString("WebsiteContext");
             _environment = environment;
         }
 

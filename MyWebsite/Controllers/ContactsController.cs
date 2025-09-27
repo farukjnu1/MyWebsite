@@ -17,7 +17,7 @@ namespace MyWebsite.Controllers
         public ContactsController(ILogger<HomeController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
             _logger = logger;
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = configuration.GetConnectionString("WebsiteContext");
             _environment = environment;
         }
 
