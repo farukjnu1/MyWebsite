@@ -18,10 +18,12 @@
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\logs\" />
+	<Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Views\Shared\_LayoutReview.cshtml" />
+	
   </ItemGroup>
 
 </Project>

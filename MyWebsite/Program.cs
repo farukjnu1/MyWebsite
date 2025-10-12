@@ -1,4 +1,4 @@
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -17,6 +17,9 @@ builder.Services.AddControllersWithViews();
 string connectionString = builder.Configuration["ConnectionStrings:WebsiteContext"];
 
 var app = builder.Build();
+
+// 👇 enable static file serving from wwwroot
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 /*if (!app.Environment.IsDevelopment())

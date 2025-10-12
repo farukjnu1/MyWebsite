@@ -23,9 +23,15 @@
                     
                     <div class="mb-4">
                         <h3 class="mb-4"><i class="fa fa-check text-primary me-2"></i> @ourService.Title</h3>
-                        <p class="mb-3">@ourService.Header</p>
-                        <p class="mb-3">@ourService.Body</p>
-                        <p class="mb-3">@ourService.Footer</p>
+                        <p class="mb-3">
+                            @Html.Raw(ourService.Header)
+                        </p>
+                        <p class="mb-3">
+                            @Html.Raw(ourService.Body)
+                        </p>
+                        <p class="mb-3">
+                            @Html.Raw(ourService.Footer)
+                        </p>
                     </div>
                 </div>
             </div>
