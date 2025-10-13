@@ -14,7 +14,7 @@ namespace MyWebsite.Repositories
             _connectionString = connectionString;
         }
         // Create
-        public string Add(MediaVM model)
+        public MediaVM Add(MediaVM model)
         {
             string message = "operation failed.";
             using (var _context = new WebsiteContext())
@@ -30,9 +30,10 @@ namespace MyWebsite.Repositories
 
                 _context.SaveChanges();
 
+                model.MediaId = oMedium.MediaId;
                 message = "media has been added successfully.";
             }
-            return message;
+            return model;
         }
 
         // Update

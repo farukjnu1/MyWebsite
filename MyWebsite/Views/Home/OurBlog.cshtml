@@ -22,9 +22,9 @@
 
                     <div class="mb-4">
                         <h3 class="mb-4"><i class="fa fa-check text-primary me-2"></i> @ourBlog.Title</h3>
-                        <p class="mb-3">@ourBlog.Header</p>
-                        <p class="mb-3">@ourBlog.Body</p>
-                        <p class="mb-3">@ourBlog.Footer</p>
+                        <p class="mb-3" style="text-align: justify;text-justify: inter-word;">@Html.Raw(ourBlog.Header)</p>
+                        <p class="mb-3" style="text-align: justify;text-justify: inter-word;">@Html.Raw(ourBlog.Body)</p>
+                        <p class="mb-3" style="text-align: justify;text-justify: inter-word;">@Html.Raw(ourBlog.Footer)</p>
                     </div>
                 </div>
             </div>

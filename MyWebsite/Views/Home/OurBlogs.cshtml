@@ -33,10 +33,10 @@
                             <div class="blog-centent p-4">
                                 <div class="d-flex justify-content-between mb-4">
                                     <p class="mb-0 text-muted"><i class="fa fa-calendar-alt text-primary"></i> @Convert.ToDateTime(listOurBlog[i].UploadedAt).ToString("dd MMM yyyy")</p>
-                                    <a href="javascript:void(0)" class="text-muted"><span class="fa fa-comments text-primary"></span> Comment(s)</a>
+                                    @* <a href="javascript:void(0)" class="text-muted"><span class="fa fa-comments text-primary"></span> Comment(s)</a> *@
                                 </div>
                                 <a href="javascript:void(0)" class="h4">@listOurBlog[i].Title</a>
-                                <p class="my-4">@listOurBlog[i].Body</p>
+                                <p class="my-4">@listOurBlog[i].Header</p>
                                 <a href="/Home/OurBlog/@listOurBlog[i].PageContentId" class="btn btn-primary rounded-pill text-white py-2 px-4 mb-1">Read More</a>
                             </div>
                         </div>

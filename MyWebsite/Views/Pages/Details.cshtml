@@ -67,7 +67,9 @@
                     <div class="section-title text-start mb-5">
                         <h4 class="sub-title pe-3 mb-0">About Us</h4>
                         <h1 class="display-3 mb-4">@aboutUs.Title</h1>
-                        <p class="mb-4">@aboutUs.Body</p>
+                        <p class="mb-4" style="text-align: justify;text-justify: inter-word;">@aboutUs.Header</p>
+                        <p class="mb-4" style="text-align: justify;text-justify: inter-word;">@aboutUs.Body</p>
+                        <p class="mb-4" style="text-align: justify;text-justify: inter-word;">@aboutUs.Footer</p>
                         <div class="mb-4">
                             @foreach (var item in listAbout)
                             {
@@ -395,10 +397,10 @@
                                 <div class="blog-centent p-4">
                                     <div class="d-flex justify-content-between mb-4">
                                         <p class="mb-0 text-muted"><i class="fa fa-calendar-alt text-primary"></i> @Convert.ToDateTime(listOurBlog[i].UploadedAt).ToString("dd MMM yyyy")</p>
-                                        <a href="#" class="text-muted"><span class="fa fa-comments text-primary"></span> Comment(s)</a>
+                                        @* <a href="#" class="text-muted"><span class="fa fa-comments text-primary"></span> Comment(s)</a> *@
                                     </div>
                                     <a href="#" class="h4">@listOurBlog[i].Title</a>
-                                    <p class="my-4">@listOurBlog[i].Body</p>
+                                    <p class="my-4">@listOurBlog[i].Header</p>
                                     <a href="/Home/OurBlog/@listOurBlog[i].PageContentId" class="btn btn-primary rounded-pill text-white py-2 px-4 mb-1">Read More</a>
                                 </div>
                             </div>

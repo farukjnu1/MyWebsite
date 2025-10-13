@@ -27,8 +27,8 @@
             {
                 if (i < 8)
                 {
-                    string body = string.IsNullOrEmpty(listService[i].Body) == true ? "" : Convert.ToString(listService[i].Body);
-                    body = body.Length > 100 ? body.ToString().Substring(0, 100) : body.ToString().Substring(0, body.Length);
+                    string header = string.IsNullOrEmpty(listService[i].Header) == true ? "" : Convert.ToString(listService[i].Header);
+                    header = header.Length > 100 ? header.ToString().Substring(0, 100) : header.ToString().Substring(0, header.Length);
                     var delay = i * 0.1;
                     <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="@delay.ToString()s">
                         <div class="service-item rounded">
@@ -37,8 +37,8 @@
                             </div>
                             <div class="service-content rounded-bottom bg-light p-4">
                                 <div class="service-content-inner">
-                                    <h5 class="mb-4">@listService[i].Title</h5>
-                                    <p class="mb-4">@body</p>
+                                    <h5 class="mb-4">@Html.Raw(listService[i].Title)</h5>
+                                    <p class="mb-4">@Html.Raw(header)</p>
                                     <a href="/Home/Service/@listService[i].PageContentId" class="btn btn-primary rounded-pill text-white py-2 px-4 mb-2">Read More</a>
                                 </div>
                             </div>

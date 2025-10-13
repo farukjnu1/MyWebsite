@@ -46,10 +46,10 @@
                 <img src="@item.FilePath" class="img-fluid w-100" alt="Image">
                 <div class="carousel-caption">
                     <div class="carousel-caption-content p-3">
-                        <h5 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">@item.Title</h5>
+                        <h5 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">@Html.Raw(item.Title)</h5>
                         <h1 class="display-1 text-capitalize text-white mb-4">Where Beauty Meets Radiance</h1>
                         <p class="mb-5 fs-5">
-                            @item.Body
+                            @Html.Raw(item.Body)
                         </p>
                         <a class="btn btn-primary rounded-pill text-white py-3 px-5" href="javascript:void(0)" name="appointment">Book Appointment</a>
                     </div>
@@ -68,9 +68,9 @@
             <div class="sub-style">
                 <h4 class="sub-title px-3 mb-0">What We Do</h4>
             </div>
-            <h1 class="display-3 mb-4">@ourService.Title</h1>
+            <h1 class="display-3 mb-4">@Html.Raw(ourService.Title)</h1>
             <p class="mb-0">
-                @ourService.Body
+                @Html.Raw(ourService.Body)
             </p>
         </div>
         <div class="row g-4 justify-content-center">
@@ -78,8 +78,8 @@
             {
                 if (i < 8)
                 {
-                    string body = string.IsNullOrEmpty(listService[i].Body) == true ? "" : Convert.ToString(listService[i].Body);
-                    body = body.Length > 100 ? body.ToString().Substring(0, 100) : body.ToString().Substring(0, body.Length);
+                    string header = string.IsNullOrEmpty(listService[i].Header) == true ? "" : Convert.ToString(listService[i].Header);
+                    header = header.Length > 100 ? header.ToString().Substring(0, 100) : header.ToString().Substring(0, header.Length);
                     var delay = i * 0.1;
                     <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="@delay.ToString()s">
                         <div class="service-item rounded">
@@ -88,8 +88,8 @@
                             </div>
                             <div class="service-content rounded-bottom bg-light p-4">
                                 <div class="service-content-inner">
-                                    <h5 class="mb-4">@listService[i].Title</h5>
-                                    <p class="mb-4">@body</p>
+                                    <h5 class="mb-4">@Html.Raw(listService[i].Title)</h5>
+                                    <p class="mb-4">@Html.Raw(header)</p>
                                     <a href="/Home/Service/@listService[i].PageContentId" class="btn btn-primary rounded-pill text-white py-2 px-4 mb-2">Read More</a>
                                 </div>
                             </div>
@@ -123,12 +123,14 @@
             <div class="col-lg-7 wow fadeInRight" data-wow-delay="0.4s">
                 <div class="section-title text-start mb-5">
                     <h4 class="sub-title pe-3 mb-0">About Us</h4>
-                    <h1 class="display-3 mb-4">@aboutUs.Title</h1>
-                    <p class="mb-4">@aboutUs.Body</p>
+                    <h1 class="display-3 mb-4">@Html.Raw(aboutUs.Title)</h1>
+                    <p class="mb-4" style="text-align: justify;text-justify: inter-word;">@Html.Raw(aboutUs.Header)</p>
+                    <p class="mb-4" style="text-align: justify;text-justify: inter-word;">@Html.Raw(aboutUs.Body)</p>
+                    <p class="mb-4" style="text-align: justify;text-justify: inter-word;">@Html.Raw(aboutUs.Footer)</p>
                     <div class="mb-4">
                         @foreach (var item in listAbout)
                         {
-                            <p class="text-secondary"><i class="fa fa-check text-primary me-2"></i> @item.Title</p>
+                            <p class="text-secondary"><i class="fa fa-check text-primary me-2"></i> @Html.Raw(item.Title)</p>
                         }
                     </div>
                     <a href="/Home/About" class="btn btn-primary rounded-pill text-white py-3 px-5">Discover More</a>
@@ -159,16 +161,10 @@
                         <div class="team-item rounded">
                             <div class="team-img rounded-top h-100">
                                 <img src="@listOurTeam[i].FilePath" class="img-fluid rounded-top w-100" alt="">
-                                @* <div class="team-icon d-flex justify-content-center">
-                                    <a class="btn btn-square btn-primary text-white rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-square btn-primary text-white rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-square btn-primary text-white rounded-circle mx-1" href=""><i class="fab fa-instagram"></i></a>
-                                    <a class="btn btn-square btn-primary text-white rounded-circle mx-1" href=""><i class="fab fa-linkedin-in"></i></a>
-                                </div> *@
                             </div>
                             <div class="team-content text-center border border-primary border-top-0 rounded-bottom p-4">
-                                <h5>@listOurTeam[i].Title</h5>
-                                <p class="mb-0">@listOurTeam[i].Body</p>
+                                <h5>@Html.Raw(listOurTeam[i].Title)</h5>
+                                <p class="mb-0">@Html.Raw(listOurTeam[i].Body)</p>
                             </div>
                         </div>
                     </div>
@@ -243,10 +239,10 @@
                             <div class="blog-centent p-4">
                                 <div class="d-flex justify-content-between mb-4">
                                     <p class="mb-0 text-muted"><i class="fa fa-calendar-alt text-primary"></i> @Convert.ToDateTime(listOurBlog[i].UploadedAt).ToString("dd MMM yyyy")</p>
-                                    <a href="javascript:void(0)" class="text-muted"><span class="fa fa-comments text-primary"></span> Comment(s)</a>
+                                    @* <a href="javascript:void(0)" class="text-muted"><span class="fa fa-comments text-primary"></span> Comment(s)</a> *@
                                 </div>
-                                <a href="#" class="h4">@listOurBlog[i].Title</a>
-                                <p class="my-4">@listOurBlog[i].Body</p>
+                                <a href="#" class="h4">@Html.Raw(listOurBlog[i].Title)</a>
+                                <p class="my-4">@Html.Raw(listOurBlog[i].Body)</p>
                                 <a href="/Home/OurBlog/@listOurBlog[i].PageContentId" class="btn btn-primary rounded-pill text-white py-2 px-4 mb-1">Read More</a>
                             </div>
                         </div>

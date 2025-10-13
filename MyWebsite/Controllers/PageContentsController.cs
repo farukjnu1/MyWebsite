@@ -127,7 +127,9 @@ namespace MyWebsite.Controllers
                     oMedia.FilePath = "/img/"+ uniqueFileName;
                     oMedia.MediaId = Convert.ToInt32(model.MediaId);
                     oMedia.UploadedBy = UploadedBy;
-                    TempData["message"] = mediaRepo.Update(oMedia);
+                    var mediaVm = mediaRepo.Add(oMedia);
+                    model.MediaId = mediaVm.MediaId;
+                    TempData["message"] = pcRepo.Update(model);
                     #endregion
                 }
                 #endregion
