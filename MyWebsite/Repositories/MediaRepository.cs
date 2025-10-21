@@ -25,11 +25,8 @@ namespace MyWebsite.Repositories
                 oMedium.FilePath = model.FilePath;
                 oMedium.UploadedAt = DateTime.Now;
                 oMedium.UploadedBy = model.UploadedBy;
-
                 _context.Media.Add(oMedium);
-
                 _context.SaveChanges();
-
                 model.MediaId = oMedium.MediaId;
                 message = "media has been added successfully.";
             }
@@ -50,9 +47,7 @@ namespace MyWebsite.Repositories
                     oMedium.FilePath = model.FilePath;
                     oMedium.UploadedAt = DateTime.Now;
                     oMedium.UploadedBy = model.UploadedBy;
-
                     _context.SaveChanges();
-
                     message = "media has been updated successfully.";
                 }
             }

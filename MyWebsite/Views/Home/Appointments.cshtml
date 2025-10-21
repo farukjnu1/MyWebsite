@@ -15,9 +15,10 @@
         <div class="row g-5 align-items-center">
             <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2">
                 <div class="section-title text-start">
-                    <h4 class="sub-title pe-3 mb-0">@appointment.Title</h4>
-                    <h1 class="display-4 mb-4">@appointment.Header</h1>
-                    <p class="mb-4">@appointment.Body</p>
+                    <h4 class="sub-title pe-3 mb-0">@Html.Raw(appointment.Title)</h4>
+                    <h1 class="display-4 mb-4">@Html.Raw(appointment.Header)</h1>
+                    <p class="mb-4" style="text-align: justify;text-justify: inter-word;">@Html.Raw(appointment.Body)</p>
+                    <p class="mb-4" style="text-align: justify;text-justify: inter-word;">@Html.Raw(appointment.Footer)</p>
                     <div class="row g-4">
                         <div class="col-sm-8">
                             <div class="video h-100">

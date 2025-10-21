@@ -14,6 +14,30 @@ namespace MyWebsite.Repositories
             _connectionString = connectionString;
         }
 
+        public PageContentVM Add(PageContentVM model)
+        {
+            string message = "operation failed.";
+            using (var _context = new WebsiteContext())
+            {
+                PageContent oPageContent = new PageContent();
+                oPageContent.Body = model.Body;
+                oPageContent.Footer = model.Footer;
+                oPageContent.Header = model.Header;
+                oPageContent.IsActive = model.IsActive;
+                oPageContent.MediaId = model.MediaId;
+                oPageContent.Title = model.Title;
+                oPageContent.UploadedAt = DateTime.Now;
+                oPageContent.UploadedBy = model.UploadedBy;
+                oPageContent.SlugPage = model.SlugPage;
+                oPageContent.SlugPageContent = model.SlugPageContent;
+                _context.Add(oPageContent);
+                _context.SaveChanges();
+                model.PageContentId = oPageContent.PageContentId;
+                message = "data has been added successfully.";
+            }
+            return model;
+        }
+
         public string Update(PageContentVM model)
         {
             string message = "operation failed.";

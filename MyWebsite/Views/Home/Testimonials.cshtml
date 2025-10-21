@@ -16,11 +16,17 @@
             <div class="sub-style">
                 <h4 class="sub-title text-white px-3 mb-0">Testimonial</h4>
             </div>
-            <h1 class="display-3 mb-4">@testimonial.Title</h1>
+            <h1 class="display-3 mb-4">@Html.Raw(@testimonial.Title)</h1>
+            <p class="mb-1">@Html.Raw(testimonial.Header)</p>
+            <p class="mb-1">@Html.Raw(testimonial.Body)</p>
+            <p class="mb-1">@Html.Raw(testimonial.Footer)</p>
         </div>
         <div class="testimonial-carousel owl-carousel">
-            @foreach (var item in listTestimonial.Take(3))
+            @foreach (var item in listTestimonial)
             {
+                int start = 0;
+                bool isInt = int.TryParse(item.Footer, out start);
+                start = isInt == true ? start : 0;
                 <div class="testimonial-item">
                     <div class="testimonial-inner p-5">
                         <div class="testimonial-inner-img mb-4">
@@ -33,7 +39,7 @@
                             <h5 class="mb-2">@item.Title</h5>
                             <p class="mb-2 text-white-50">@item.Header</p>
                             <div class="d-flex justify-content-center">
-                                @for (var i = 0; i < int.Parse(item.Footer); i++)
+                                @for (var i = 0; i < start; i++)
                                 {
                                     <i class="fas fa-star text-secondary"></i>
                                 }
