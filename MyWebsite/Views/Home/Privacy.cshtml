@@ -5,7 +5,7 @@
     var oPrivacyPolicy = Model.Where(x => x.Slug == "privacy_policy").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "privacy_policy").First();
     var privacyPolicy = oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policy").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
                         oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policy").First();
-    var listPrivacyPolicy = oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policies").ToList();
+    var listPrivacyPolicy = oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policies" && x.IsActive == true).ToList();
 }
 
 <!-- Privacy Policy Start -->

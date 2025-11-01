@@ -182,7 +182,7 @@ namespace MyWebsite.Repositories
                             model.UploadedBy = reader.GetValue("UploadedBy") == DBNull.Value ? (int?)null : reader.GetInt32("UploadedBy");
                             model.FileName = reader.GetValue("FileName") == DBNull.Value ? "" : reader.GetString("FileName");
                             model.FilePath = reader.GetValue("FilePath") == DBNull.Value ? "" : reader.GetString("FilePath");
-
+                            model.Description = reader.GetValue("Description") == DBNull.Value ? "" : reader.GetString("Description");
                             list.Add(model);
                         }
                     }

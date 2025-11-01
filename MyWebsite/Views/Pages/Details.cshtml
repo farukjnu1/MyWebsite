@@ -590,6 +590,7 @@
                         oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policy").First();
     var listPrivacyPolicy = oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policies").ToList();
 
+    <a href="/PageContents/Create?Slug=privacy_policy&SlugPageContent=privacy_policies" style="padding-left:20px">New Policy</a>
     <!-- Privacy Policy Start -->
     <div class="container-fluid about bg-light py-5">
         <div class="container py-5">
@@ -602,7 +603,7 @@
                         <p class="mb-2" style="text-align: justify;text-justify: inter-word;">@Html.Raw(privacyPolicy.Body)</p>
                         <p class="mb-2" style="text-align: justify;text-justify: inter-word;">@Html.Raw(privacyPolicy.Footer)</p>
                         <div class="mb-4">
-                            @foreach (var item in listPrivacyPolicy)
+                            @foreach (var item in listPrivacyPolicy.Where(x=>x.IsActive == true))
                             {
                                 <p class="text-secondary"><i class="fa fa-check text-primary me-2"></i> @item.Title</p>
                             }
@@ -624,6 +625,7 @@
                         oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_condition").First();
     var listTerms = oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_conditions").ToList();
 
+    <a href="/PageContents/Create?Slug=terms_condition&SlugPageContent=terms_conditions" style="padding-left:20px">New Terms & Condition</a>
     <!--  terms_condition Start -->
     <div class="container-fluid about bg-light py-5">
         <div class="container py-5">
@@ -636,7 +638,7 @@
                         <p class="mb-1">@terms.Body</p>
                         <p class="mb-1">@terms.Footer</p>
                         <div class="mb-4">
-                            @foreach (var item in listTerms)
+                            @foreach (var item in listTerms.Where(x => x.IsActive == true))
                             {
                                 <p class="text-secondary"><i class="fa fa-check text-primary me-2"></i> @item.Title</p>
                             }

@@ -47,8 +47,7 @@
     var oCopyRight = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "copy_right").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
     : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "copy_right").First();
 
-    var oDesignedBy = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "designed_by").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM()
-    : layoutPage.ListPageContent.Where(x => x.SlugPageContent == "designed_by").First();
+    var listDesignedBy = layoutPage.ListPageContent.Where(x => x.SlugPageContent == "designed_by" && x.IsActive == true).ToList();
 
     var message = TempData["message"] as string;
 }
@@ -289,9 +288,11 @@
                     }      
                 </div>
                 <div class="col-md-6 text-center text-md-end text-white">
-                    @if (oDesignedBy.IsActive == true)
+                    <span>Designed By</span>
+                    @foreach (var oDesignedBy in listDesignedBy)
                     {
-                        <span>@oDesignedBy.Title</span> <a class="border-bottom" href="@oDesignedBy.Header" target="_blank">@oDesignedBy.Body</a>
+                        <a class="border-bottom" href="@oDesignedBy.Header" target="_blank">@oDesignedBy.Body</a>
+                        <span> & </span>
                     }
                 </div>
             </div>
