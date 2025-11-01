@@ -292,10 +292,13 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end text-white">
                     <span>Designed By</span>
-                    @foreach (var oDesignedBy in listDesignedBy)
+                    @for (var i = 0; i < listDesignedBy.Count; i++)
                     {
-                        <a class="border-bottom" href="@oDesignedBy.Header" target="_blank">@oDesignedBy.Body</a>
-                        <span> & </span>
+                        if (i > 0)
+                        {
+                            <span> & </span>
+                        }
+                        <a class="border-bottom" href="@listDesignedBy[i].Header" target="_blank">@listDesignedBy[i].Body</a>
                     }
                 </div>
             </div>
