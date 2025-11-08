@@ -6,7 +6,7 @@
     var oTerms = Model.Where(x => x.Slug == "terms_condition").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "terms_condition").First();
     var terms = oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_condition").FirstOrDefault() == null ? new MyWebsite.Models.PageContentVM() :
                         oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_condition").First();
-    var listTerms = oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_conditions").ToList();
+    var listTerms = oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_conditions" && x.IsActive == true).ToList();
 }
 
 <!--  terms_condition Start -->

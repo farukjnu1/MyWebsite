@@ -193,9 +193,9 @@
 {
     var oHome = Model.Where(x => x.Slug == "home").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "home").First();
 
+    <h4 style="color:red;padding-left:20px"><i>To show in slides in Home page, activate the slide</i></h4>
     <!-- Navbar & Hero Start -->
     <div class="container-fluid position-relative">
-
         <!-- Carousel Start -->
         <div class="header-carousel owl-carousel">
             @foreach (var item in oHome.ListPageContent.Where(x => x.SlugPageContent == "slides" && x.IsActive == true))
@@ -220,7 +220,6 @@
     <!-- Navbar & Hero End -->
 }
 
-
 @if (oPage.Slug == "services")
 {
     var oService = Model.Where(x => x.Slug == "services").FirstOrDefault() == null ? new PageVM() : Model.Where(x => x.Slug == "services").First();
@@ -229,6 +228,7 @@
     var listService = oService.ListPageContent.Where(x => x.SlugPageContent == "services").ToList();
 
     <a href="/PageContents/Create?Slug=services&SlugPageContent=services" style="padding-left:20px">New services</a>
+    <h4 style="color:red;padding-left:20px"><i>To show services in Home page, input 'home' in description</i></h4>
     <!-- Services Start -->
     <div class="container-fluid service py-5">
         <div class="container py-5">
@@ -284,6 +284,7 @@
     var listOurTeam = oOurTeam.ListPageContent.Where(x => x.SlugPageContent == "our_teams").ToList();
 
     <a href="/PageContents/Create?Slug=our_team&SlugPageContent=our_teams" style="padding-left:20px">New Team Member</a>
+    <h4 style="color:red;padding-left:20px"><i>To show team member in Home page, input 'home' in description</i></h4>
     <!-- Team Start -->
     <div class="container-fluid team py-5">
         <div class="container py-5">
@@ -336,7 +337,8 @@
                         oTestimonial.ListPageContent.Where(x => x.SlugPageContent == "testimonial").First();
     var listTestimonial = oTestimonial.ListPageContent.Where(x => x.SlugPageContent == "testimonials").ToList();
 
-    <a href="/PageContents/Create?Slug=testimonial&SlugPageContent=testimonials" style="padding-left:20px">New Restimonial</a>
+    <a href="/PageContents/Create?Slug=testimonial&SlugPageContent=testimonials" style="padding-left:20px">New Testimonial</a>
+    <h4 style="color:red;padding-left:20px"><i>To show testimonial in Home page, input 'home' in description</i></h4>
     <!-- Testimonial Start -->
     <div class="container-fluid testimonial py-5 wow zoomInDown" data-wow-delay="0.1s">
         <div class="container py-5">
@@ -591,6 +593,7 @@
     var listPrivacyPolicy = oPrivacyPolicy.ListPageContent.Where(x => x.SlugPageContent == "privacy_policies").ToList();
 
     <a href="/PageContents/Create?Slug=privacy_policy&SlugPageContent=privacy_policies" style="padding-left:20px">New Policy</a>
+    <h4 style="color:red;padding-left:20px"><i>To show in Policy in Home page, activate the policy</i></h4>
     <!-- Privacy Policy Start -->
     <div class="container-fluid about bg-light py-5">
         <div class="container py-5">
@@ -626,6 +629,7 @@
     var listTerms = oTerms.ListPageContent.Where(x => x.SlugPageContent == "terms_conditions").ToList();
 
     <a href="/PageContents/Create?Slug=terms_condition&SlugPageContent=terms_conditions" style="padding-left:20px">New Terms & Condition</a>
+    <h4 style="color:red;padding-left:20px"><i>To show in terms in Home page, activate the term</i></h4>
     <!--  terms_condition Start -->
     <div class="container-fluid about bg-light py-5">
         <div class="container py-5">
